@@ -12,20 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)' == 'Release'">
     <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*">
-      <HintPath>"..\..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\bin\Debug</HintPath>
-    </PackageReference>
+  <ItemGroup>
+    <Folder Include="wwwroot\images\basic\" />
   </ItemGroup>
 
 </Project>
