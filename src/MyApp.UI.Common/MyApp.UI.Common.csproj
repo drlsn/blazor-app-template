@@ -14,19 +14,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
   </ItemGroup>
 
-  <Choose>
-    <When Condition="'$(Configuration)' == 'Release'">
-      <ItemGroup>
-        <PackageReference Include="Corelibs.Blazor.UIComponents" Version="1.0.0" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(Configuration)' == 'Debug'">
-      <ItemGroup>
-        <Reference Include="Corelibs.Blazor.UIComponents">
-          <HintPath>..\..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\bin\Debug\net7.0\Corelibs.Blazor.UIComponents.dll</HintPath>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*">
+      <HintPath>"..\..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\bin\Debug</HintPath>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
