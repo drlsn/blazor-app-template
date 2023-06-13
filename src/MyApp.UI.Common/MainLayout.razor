@@ -1,19 +1,28 @@
 ﻿@inherits LayoutComponentBase
 
-<SideMenu
-    MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
-    LogoName="Kinergize"
-    LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
-    ButtonGroups=@ButtonGroups />
-
-<main>
+<main class="main" style=@_paddingLeftCssAttribute>
     @Body
 </main>
 
-@code {
-    private static string _basePath = "_content/MyApp.UI.Common";
+<SideMenu
+    OnSizeChanged=@OnMenuSizeChanged
+    MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
+    LogoName="Kinergize"
+    LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
+    ButtonGroups=@SideMenuButtonGroups />
 
-    private SideMenu.ButtonGroup[] ButtonGroups =
+@code {
+    private int _menuSize;
+    private string _paddingLeftCssAttribute => _menuSize == 0 ? "" : $"padding-left: {_menuSize.ToString()}px;";
+
+    private void OnMenuSizeChanged(int size)
+    {
+        _menuSize = size;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private static string _basePath = "_content/MyApp.UI.Common";
+    private SideMenu.ButtonGroup[] SideMenuButtonGroups =
     {
         new("General", new SideMenu.Button[]
         {

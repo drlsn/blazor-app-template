@@ -1,5 +1,9 @@
 ﻿@page "/"
 
-@code {
+<List_1 Title="Your Plans" MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
+    Description="Add, Remove, Choose from Public..">
+</List_1>
 
+@code {
+    private static string _basePath = "_content/MyApp.UI.Common";
 }

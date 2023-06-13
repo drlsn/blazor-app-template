@@ -1,0 +1,12 @@
+﻿.main {
+    padding-top: 70px;
+    padding-left: 105px;
+    padding-right: 35px;
+    transition: padding-left 300ms ease;
+}
+
+@media only screen and (max-width: 600px) {
+    .main {
+        padding-left: 35px;
+    }
+}
