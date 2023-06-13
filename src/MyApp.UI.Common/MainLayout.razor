@@ -1,5 +1,25 @@
 ﻿@inherits LayoutComponentBase
 
+<Menu
+    LogoName="Kinergize"
+    LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
+    ButtonGroups=@ButtonGroups />
+
 <main>
     @Body
 </main>
+
+@code {
+    private static string _basePath = "_content/MyApp.UI.Common";
+
+    private Menu.ButtonGroup[] ButtonGroups = new Menu.ButtonGroup[]
+    {
+        new("General", new Menu.Button[]
+        {
+            new("Dashboard", $"{_basePath}/images/icons/nav/home.png"),
+            new("Plans", $"{_basePath}/images/icons/basic/news.png"),
+            new("Sessions", $"{_basePath}/images/icons/basic/time.png"),
+            new("Exercises", $"{_basePath}/images/icons/gym/arm.png"),
+        })
+    };
+}
