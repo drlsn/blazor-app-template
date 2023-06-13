@@ -12,11 +12,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
-    <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\basic\" />
+    <ProjectReference Include="..\..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\Corelibs.Blazor.UIComponents.csproj" />
   </ItemGroup>
 
 </Project>

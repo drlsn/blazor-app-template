@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
-<Menu
+<SideMenu
+    MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
     LogoName="Kinergize"
     LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
     ButtonGroups=@ButtonGroups />
@@ -12,9 +13,9 @@
 @code {
     private static string _basePath = "_content/MyApp.UI.Common";
 
-    private Menu.ButtonGroup[] ButtonGroups = new Menu.ButtonGroup[]
+    private SideMenu.ButtonGroup[] ButtonGroups =
     {
-        new("General", new Menu.Button[]
+        new("General", new SideMenu.Button[]
         {
             new("Dashboard", $"{_basePath}/images/icons/nav/home.png"),
             new("Plans", $"{_basePath}/images/icons/basic/news.png"),

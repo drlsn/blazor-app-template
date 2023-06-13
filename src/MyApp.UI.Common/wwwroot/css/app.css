@@ -3,6 +3,16 @@
     src: url(../fonts/NotoSans-Light.ttf);
 }
 
-h1, h2, h3, h4, h5, h6, span, p {
-    font-family: noto;
+@font-face {
+    font-family: ubuntu;
+    src: url(../fonts/Ubuntu-Light.ttf);
+}
+
+@font-face {
+    font-family: roboto;
+    src: url(../fonts/Roboto-Light.ttf);
+}
+
+body {
+    font-family: ubuntu;
 }
