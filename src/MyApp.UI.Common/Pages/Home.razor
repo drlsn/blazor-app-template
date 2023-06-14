@@ -1,112 +1,48 @@
 ﻿@page "/"
 
-<div class="v-list">
+<div class="grid-1x2">
+    <div class="v-list">
+        <div class="grid-1x2">
+            <List_1 
+                Title="Your Plans"
+                Description="Add, Remove, Choose from Public.."
+                DropdownModel=@DropdownModel
+                OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected>
 
-    <div class="grid-1x2">
-        <List_1 
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
+                <Item_1 Title="Push-Pull - Weights" DropdownModel=@DropdownModel />
+                <Item_1 Title="Push-Pull - Calisthenics" DropdownModel=@DropdownModel />
+                <Item_1 Title="Split" DropdownModel=@DropdownModel />
+                <Item_1 Title="Push-Pull-Legs" DropdownModel=@DropdownModel />
+                <Item_1 Title="Full Body" DropdownModel=@DropdownModel />
 
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
+            </List_1>
+            <List_1 
+                Title="Sessions">
+                    
+                <Item_1 Title="Push-Pull - Weights - Chest, Shoulders, Triceps, Legs" />
+                <Item_1 Title="Split - Calisthenics - Back" />
 
-        </List_1>
-        <List_1
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
-
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
-
-        </List_1>
+            </List_1>
+        </div>
     </div>
-
-    <List_1 
-        Title="Your Plans"
-        Description="Add, Remove, Choose from Public..">
-
-        <Item_1 Title="Push - Pull" />
-        <Item_1 Title="Split" />
-        <Item_1 Title="Push - Pull - Legs" />
-        <Item_1 Title="Full Body" />
-
-    </List_1>
-
-    <div class="grid-1x2">
-        <List_1 
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
-
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
-
-        </List_1>
-        <List_1 
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
-
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
-
-        </List_1>
-    </div>
-
-    <div class="grid-1x2">
-        <List_1 
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
-
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
-
-        </List_1>
-        <List_1 
-            Title="Your Plans"
-            Description="Add, Remove, Choose from Public..">
-
-            <Item_1 Title="Push - Pull" />
-            <Item_1 Title="Split" />
-            <Item_1 Title="Push - Pull - Legs" />
-            <Item_1 Title="Full Body" />
-
-        </List_1>
-    </div>
-
-    <List_1 
-        Title="Your Plans"
-        Description="Add, Remove, Choose from Public..">
-
-        <Item_1 Title="Push - Pull" />
-        <Item_1 Title="Split" />
-        <Item_1 Title="Push - Pull - Legs" />
-        <Item_1 Title="Full Body" />
-
-    </List_1>
-
-    <List_1 
-        Title="Your Plans"
-        Description="Add, Remove, Choose from Public..">
-
-        <Item_1 Title="Push - Pull" />
-        <Item_1 Title="Split" />
-        <Item_1 Title="Push - Pull - Legs" />
-        <Item_1 Title="Full Body" />
-
-    </List_1>
-
 </div>
-
 
 @code {
     private static string _basePath = "_content/MyApp.UI.Common";
+
+    private Dropdown.ViewModel DropdownModel = new(
+        Options: new()
+        {
+            "Add",
+            "Remove",
+            "Edit"
+        },
+        Trigger: new(IsFixed: true, Value: "Menu", Mode: Dropdown.Mode.Component)
+    );
+
+    private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
+    {
+        Console.WriteLine(option.ToString());
+        return true;
+    }
 }
