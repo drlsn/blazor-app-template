@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<div class="grid-1x2">
+<div class="grid-1x2f">
     <div class="v-list">
         <div class="grid-1x2">
             <List_1 
@@ -25,6 +25,13 @@
             </List_1>
         </div>
     </div>
+    <div class="v-list">
+        <DropdownWithLabel 
+            Title="Ownership" 
+            Model=@OwnershipFilterDropdownModel 
+            OnOptionSelected=OnOwnershipFilterDropdownModelOptionSelected />
+        
+    </div>
 </div>
 
 @code {
@@ -40,7 +47,23 @@
         Trigger: new(IsFixed: true, Value: "Menu", Mode: Dropdown.Mode.Component)
     );
 
+    private Dropdown.ViewModel OwnershipFilterDropdownModel = new(
+        Options: new()
+        {
+            "Own",
+            "Public",
+            "All"
+        },
+        Trigger: new(BgOn: true)
+    );
+
     private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
+    {
+        Console.WriteLine(option.ToString());
+        return true;
+    }
+
+    private async Task<bool> OnOwnershipFilterDropdownModelOptionSelected(Dropdown.Option option)
     {
         Console.WriteLine(option.ToString());
         return true;
