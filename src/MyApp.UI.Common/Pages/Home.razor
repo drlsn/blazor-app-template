@@ -9,8 +9,8 @@
                 DropdownModel=@DropdownModel
                 OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected>
 
-                <Item_1 Title="Push-Pull - Weights" DropdownModel=@DropdownModel />
-                <Item_1 Title="Push-Pull - Calisthenics" DropdownModel=@DropdownModel />
+                <Item_1 Title="Weights - Push-Pull" DropdownModel=@DropdownModel OnItemClick=@OnItemClick/>
+                <Item_1 Title="Calisthenics - Push-Pull" DropdownModel=@DropdownModel />
                 <Item_1 Title="Split" DropdownModel=@DropdownModel />
                 <Item_1 Title="Push-Pull-Legs" DropdownModel=@DropdownModel />
                 <Item_1 Title="Full Body" DropdownModel=@DropdownModel />
@@ -19,8 +19,8 @@
             <List_1 
                 Title="Sessions">
                     
-                <Item_1 Title="Push-Pull - Weights - Chest, Shoulders, Triceps, Legs" />
-                <Item_1 Title="Split - Calisthenics - Back" />
+                <Item_1 Title="Weights - Push-Pull - Chest, Shoulders, Triceps, Legs" />
+                <Item_1 Title="Calisthenics - Split - Back" />
 
             </List_1>
         </div>
@@ -44,5 +44,11 @@
     {
         Console.WriteLine(option.ToString());
         return true;
+    }
+
+    private Task OnItemClick(string id)
+    {
+        Console.WriteLine("OnItemClick");
+        return Task.CompletedTask;
     }
 }
