@@ -8,7 +8,8 @@
         LogoName="Kinergize"
         LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
         SideMenuButtonGroups=@SideMenuButtonGroups 
-        TopMenuButtonGroups=@TopMenuButtonGroups />
+        TopMenuButtonGroups=@TopMenuButtonGroups 
+        BottomLeftMenuButtonGroups=@BottomLeftMenuButtonGroups />
 
     <div class="main-content">
         @Body
@@ -43,6 +44,14 @@
         new(new HorizontalMenu.Button[]
         {
             new("profile", "Profile", $"{_basePath}/images/icons/edu/head-settings.png"),
+        })
+    };
+
+    private SideMenu.ButtonGroup[] BottomLeftMenuButtonGroups =
+    {
+        new("Account", new SideMenu.Button[]
+        {
+            new("sign-out", "Sign Out", $"{_basePath}/images/icons/basic/exit.png"),
         })
     };
 }
