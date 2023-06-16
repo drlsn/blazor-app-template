@@ -1,15 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
 <main class="main" style=@_paddingLeftCssAttribute>
-    @Body
+    <SideMenu OnSizeChanged=@OnMenuSizeChanged
+              MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
+              LogoName="Kinergize"
+              LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
+              ButtonGroups=@SideMenuButtonGroups />
+    <HorizontalMenu ButtonGroups=@TopMenuButtonGroups />
+    <div class="main-content">
+        @Body
+    </div>
 </main>
 
-<SideMenu
-    OnSizeChanged=@OnMenuSizeChanged
-    MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
-    LogoName="Kinergize"
-    LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
-    ButtonGroups=@SideMenuButtonGroups />
 
 @code {
     private int _menuSize;
@@ -30,6 +32,16 @@
             new("Plans", $"{_basePath}/images/icons/basic/news.png"),
             new("Sessions", $"{_basePath}/images/icons/basic/time.png"),
             new("Exercises", $"{_basePath}/images/icons/gym/arm.png"),
+        })
+    };
+
+    private HorizontalMenu.ButtonGroup[] TopMenuButtonGroups =
+    {
+        new(new HorizontalMenu.Button[]
+        {
+            new("explore", "Explore", $"{_basePath}/images/icons/nav/home.png"),
+            new("settings", "Settings" ,$"{_basePath}/images/icons/basic/news.png"),
+            new("profile", "Profile", $"{_basePath}/images/icons/basic/time.png"),
         })
     };
 }
