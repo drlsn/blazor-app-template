@@ -1,0 +1,33 @@
+﻿@inherits BaseLayout
+
+<main class="main" style=@_paddingLeftCssAttribute>
+    <TopAndSideMenu
+        OnSideMenuSizeChanged=@OnMenuSizeChanged
+        MenuIconUrl=@($"{Config.BaseAssetsPath}/images/icons/design/grid.png")
+        LogoName="Kinergize"
+        LogoImageUrl=@($"{Config.BaseAssetsPath}/images/icons/design/mask.png")
+        TopMenuButtonGroups=@TopMenuButtonGroups
+                    OnButtonClick=@OnMenuButtonClick />
+
+    <div class="main-content">
+        @Body
+    </div>
+
+</main>
+
+@code {
+    [Inject] public NavigationManager Navigation { get; set; }
+
+    private HorizontalMenu.ButtonGroup[] TopMenuButtonGroups =
+    {
+        new(new HorizontalMenu.Button[]
+    {
+            new("dashboard", "Dashboard", $"{Config.BaseAssetsPath}/images/icons/design/grid.png"),
+    })
+    };
+
+    private async Task OnMenuButtonClick(string id)
+    {
+        Navigation.NavigateTo(id);
+    }
+}

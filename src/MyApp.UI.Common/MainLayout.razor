@@ -1,12 +1,12 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits BaseLayout
 
 <main class="main" style=@_paddingLeftCssAttribute>
     
     <TopAndSideMenu
         OnSideMenuSizeChanged=@OnMenuSizeChanged
-        MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
+        MenuIconUrl=@($"{Config.BaseAssetsPath}/images/icons/design/grid.png")
         LogoName="Kinergize"
-        LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
+        LogoImageUrl=@($"{Config.BaseAssetsPath}/images/icons/design/mask.png")
         SideMenuButtonGroups=@SideMenuButtonGroups 
         TopMenuButtonGroups=@TopMenuButtonGroups 
         BottomLeftMenuButtonGroups=@BottomLeftMenuButtonGroups />
@@ -18,24 +18,14 @@
 </main>
 
 @code {
-    private int _menuSize;
-    private string _paddingLeftCssAttribute => _menuSize == 0 ? "" : $"padding-left: {_menuSize.ToString()}px;";
-
-    private void OnMenuSizeChanged(int size)
-    {
-        _menuSize = size;
-        InvokeAsync(StateHasChanged);
-    }
-
-    private static string _basePath = "_content/MyApp.UI.Common";
     private SideMenu.ButtonGroup[] SideMenuButtonGroups =
     {
         new("General", new SideMenu.Button[]
         {
-            new("dashboard", "Dashboard", $"{_basePath}/images/icons/nav/home.png"),
-            new("plans", "Plans", $"{_basePath}/images/icons/basic/news.png"),
-            new("sessions", "Sessions", $"{_basePath}/images/icons/basic/time.png"),
-            new("exercises", "Exercises", $"{_basePath}/images/icons/gym/arm.png"),
+            new("dashboard", "Dashboard", $"{Config.BaseAssetsPath}/images/icons/nav/home.png"),
+            new("plans", "Plans", $"{Config.BaseAssetsPath}/images/icons/basic/news.png"),
+            new("sessions", "Sessions", $"{Config.BaseAssetsPath}/images/icons/basic/time.png"),
+            new("exercises", "Exercises", $"{Config.BaseAssetsPath}/images/icons/gym/arm.png"),
         })
     };
 
@@ -43,7 +33,7 @@
     {
         new(new HorizontalMenu.Button[]
         {
-            new("profile", "Profile", $"{_basePath}/images/icons/edu/head-settings.png"),
+            new("profile", "Profile", $"{Config.BaseAssetsPath}/images/icons/edu/head-settings.png"),
         })
     };
 
@@ -51,7 +41,7 @@
     {
         new("Account", new SideMenu.Button[]
         {
-            new("sign-out", "Sign Out", $"{_basePath}/images/icons/basic/exit.png"),
+            new("sign-out", "Sign Out", $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"),
         })
     };
 }
