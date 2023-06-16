@@ -1,17 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
 <main class="main" style=@_paddingLeftCssAttribute>
-    <SideMenu OnSizeChanged=@OnMenuSizeChanged
-              MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
-              LogoName="Kinergize"
-              LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
-              ButtonGroups=@SideMenuButtonGroups />
-    <HorizontalMenu ButtonGroups=@TopMenuButtonGroups />
+    
+    <TopAndSideMenu
+        OnSideMenuSizeChanged=@OnMenuSizeChanged
+        MenuIconUrl=@($"{_basePath}/images/icons/design/grid.png")
+        LogoName="Kinergize"
+        LogoImageUrl=@($"{_basePath}/images/icons/design/mask.png")
+        SideMenuButtonGroups=@SideMenuButtonGroups 
+        TopMenuButtonGroups=@TopMenuButtonGroups />
+
     <div class="main-content">
         @Body
     </div>
-</main>
 
+</main>
 
 @code {
     private int _menuSize;
@@ -28,10 +31,10 @@
     {
         new("General", new SideMenu.Button[]
         {
-            new("Dashboard", $"{_basePath}/images/icons/nav/home.png"),
-            new("Plans", $"{_basePath}/images/icons/basic/news.png"),
-            new("Sessions", $"{_basePath}/images/icons/basic/time.png"),
-            new("Exercises", $"{_basePath}/images/icons/gym/arm.png"),
+            new("dashboard", "Dashboard", $"{_basePath}/images/icons/nav/home.png"),
+            new("plans", "Plans", $"{_basePath}/images/icons/basic/news.png"),
+            new("sessions", "Sessions", $"{_basePath}/images/icons/basic/time.png"),
+            new("exercises", "Exercises", $"{_basePath}/images/icons/gym/arm.png"),
         })
     };
 
@@ -39,9 +42,7 @@
     {
         new(new HorizontalMenu.Button[]
         {
-            new("explore", "Explore", $"{_basePath}/images/icons/nav/home.png"),
-            new("settings", "Settings" ,$"{_basePath}/images/icons/basic/news.png"),
-            new("profile", "Profile", $"{_basePath}/images/icons/basic/time.png"),
+            new("profile", "Profile", $"{_basePath}/images/icons/edu/head-settings.png"),
         })
     };
 }
