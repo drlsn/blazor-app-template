@@ -2,16 +2,22 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="MicrosoftIdentity/Account/SignOut" @onclick=@OnClick>Sign out</a>
+        <button class="button" @onclick=@(() => OnClick("sign out"))>Sign out</button>
     </Authorized>
     <NotAuthorized>
-        <a href="MicrosoftIdentity/Account/SignIn">Sign in</a>
+        <button class="button" @onclick=@(() => OnClick("sign in"))>Sign In</button>
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
-    private void OnClick()
+    [Inject] public NavigationManager Navigation { get; set; }
+
+    private void OnClick(string id)
     {
-        Console.WriteLine("Login");
+        if (id == "sign in")
+            Navigation.NavigateTo($"MicrosoftIdentity/Account/SignIn", forceLoad: true);
+    else
+        if (id == "sign out")
+            Navigation.NavigateTo($"MicrosoftIdentity/Account/SignOut", forceLoad: true);
     }
 }
