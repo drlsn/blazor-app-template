@@ -8,6 +8,24 @@
   - folder names
   - find and replace all occurences of "MyApp" keyword in the solution
 
+## Development Environment Setup
+
+- Install & Setup Docker
+
+&nbsp;&nbsp;&nbsp;&nbsp; It is adviced to keep repositories in <disk>:\git folder. If a project is dependent on another one located in different repository and is actively developed together it complicates Docker builds, since Dockerfile can operate only on directories higher than it is located in. The solution here is to have a slightly different Dockerfile which would be located in <disk>:\git, so the context may include any desired repository. The downside is that if you have many repositories, the context becomes big and builds takes more time, thus it is the best to create sibling .dockerignore file which ignores all unrelevant folders/projects. To make it work for any project and in automated way [here](/dev/build.py) is a python script which analyses the Dockerfile, generates .dockerignore dynamically and temporarily modify any required .csproj projects to include project references, so the context is small. It should be copied into the git folder along with the template Dockerfile-app-<...> which can be edited as desired.
+
+Build command:
+```
+# Format:
+py build.py <Dockerfile-name> <image-name>
+
+# Example:
+py build.py Dockerfile-app-bs user/app-bs:0.0.1
+```
+
+### Build Docker Image With Local Project References
+&nbsp;&nbsp;&nbsp;&nbsp; Deploying nuget packages results in delays, so it quickly test or build app in Docker 
+
 ## Production Environment Setup
 
 ### Add Azure B2C authentication
@@ -15,15 +33,15 @@
 ### Install Docker
 ### Add elastic IP
 
+- Allocate Elastic IP address - it will prevent changing ip of instance on rerun
+- Associate Elastic IP address with an E2C instance
+
 **IMPORTANT!:** https://repost.aws/knowledge-center/elastic-ip-charges
 > An Elastic IP address doesn’t incur charges as long as all the following conditions are true:
 > - The Elastic IP address is associated with an EC2 instance.
 > - The instance associated with the Elastic IP address is running.
 > - The instance has only one Elastic IP address attached to it.
 > - The Elastic IP address is associated with an attached network interface. For more information, see Network interface basics.
-
-- Allocate Elastic IP address - it will prevent changing ip of instance on rerun
-- Associate Elastic IP address with an E2C instance
 
 ### Point domains to the IP
 - Copy Public IPv4 address of the instance
