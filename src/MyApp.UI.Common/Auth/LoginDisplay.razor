@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView>
+    <Authorized>
+        <a href="MicrosoftIdentity/Account/SignOut" @onclick=@OnClick>Sign out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="MicrosoftIdentity/Account/SignIn">Sign in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private void OnClick()
+    {
+        Console.WriteLine("Login");
+    }
+}

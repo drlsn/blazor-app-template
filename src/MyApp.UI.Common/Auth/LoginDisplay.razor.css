@@ -1,0 +1,14 @@
+﻿a {
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    font-family: ubuntu;
+
+    font-size: 14px;
+}
