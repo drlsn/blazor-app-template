@@ -1,6 +1,7 @@
 ﻿import os
 import sys
 import re
+import shutil
 
 def generate_dockerignore(dockerfile_name, image_name):
 
@@ -25,7 +26,62 @@ def generate_dockerignore(dockerfile_name, image_name):
     print("\ncsproj_references:")
     for element in csproj_references:
         print(element)
+    
+    csproj_names = []
 
+    for line in csproj_references:
+        match = re.search(r'COPY \[".*\/(.*\.csproj)"', line)
+        if match:
+            csproj_name = match.group(1)
+            csproj_names.append(csproj_name)
+
+    print("\ncsproj names:")
+    for element in csproj_names:
+        print(element)
+
+    csproj_basenames = []
+
+    for line in csproj_names:
+        basename = os.path.splitext(line)[0]
+        csproj_basenames.append(basename)
+
+    print("\ncsproj base names:")
+    for element in csproj_basenames:
+        print(element)
+
+    csproj_paths = []
+
+    for line in csproj_references:
+        match = re.search(r'COPY \["(.*\.csproj)"', line)
+        if match:
+            csproj_path = match.group(1)
+            csproj_paths.append(csproj_path)
+
+    print("\ncsproj paths:")
+    for element in csproj_paths:
+        print(element)
+
+    for path in csproj_paths:
+        shutil.copy2(path, path + '.copy')
+    
+    for path in csproj_paths:
+        with open(path, 'r') as file:
+            content = file.read()
+            
+            pattern = r'<(PackageReference|ProjectReference).*Include="([^"]*\\)?({})\.csproj"'.format('|'.join(map(re.escape, csproj_basenames)))
+            
+            matches = re.findall(pattern, content)
+            for match in matches:
+                basename = match[2]  # Extract the matched basename from the third group
+                print(f'Matched basename: {basename}')
+                new_reference = '<ProjectReference Include="{}"'.format(f'../{basename}/{basename}.csproj')
+                content = re.sub(pattern, new_reference, content, flags=re.MULTILINE)
+                with open(path, 'w') as file:
+                    file.write(content)
+
+            print(content)
+
+    
     contextFolders = []
 
     for line in csproj_references:
@@ -33,8 +89,6 @@ def generate_dockerignore(dockerfile_name, image_name):
         if match:
             folder = match.group(1)
             contextFolders.append(folder)
-
-    print(contextFolders)
 
     print("\nContext folders:")
     for element in contextFolders:
@@ -87,6 +141,16 @@ def generate_dockerignore(dockerfile_name, image_name):
     os.system(build_command)
 
     os.remove('.dockerignore')
+     
+    print('Replace .csproj files with their .copy backups')
+    for path in csproj_paths:
+        backup_path = path + '.copy'
+        shutil.copyfile(backup_path, path)
+
+    print('Delete the backups')
+    for path in csproj_paths:
+        backup_path = path + '.copy'
+        os.remove(backup_path)
 
 if __name__ == "__main__":
     # Check if the correct number of command-line arguments is provided
