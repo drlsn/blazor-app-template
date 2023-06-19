@@ -26,6 +26,11 @@ public static class AuthenticationStateProviderExtensions
         if (!state.User.Identity.IsAuthenticated)
             nav.NavigateTo($"MicrosoftIdentity/Account/SignIn", forceLoad: true);
         else
+        {
+            if (auth is CustomAuthenticationStateProvider customAuth)
+                await customAuth.ClearTokens();
+
             nav.NavigateTo($"MicrosoftIdentity/Account/SignOut", forceLoad: true);
+        }
     }
 }

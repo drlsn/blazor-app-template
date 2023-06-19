@@ -22,6 +22,19 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Auth.AuthenticationStateChanged += OnAuthenticationStateChanged;
+        TopMenuButtonGroups = await GetTopMenuButtonGroups();
+    }
+
+    private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
+    {
+        var state = await task;
+        await InvokeAsync(StateHasChanged);
+        Console.WriteLine("hoho");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
         TopMenuButtonGroups = await GetTopMenuButtonGroups();
     }
 

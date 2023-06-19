@@ -1,5 +1,11 @@
 ﻿@using System.Reflection;
+@using Blazored.LocalStorage;
+@using Microsoft.AspNetCore.Authentication;
 @using Microsoft.AspNetCore.Components.Authorization
+@using System.IdentityModel.Tokens.Jwt
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+@using MyApp.UI.Common.Print;
 
 <CascadingAuthenticationState>
     <Router AppAssembly=@typeof(App).Assembly AdditionalAssemblies=@AdditionalAssemblies>
@@ -15,9 +21,30 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
 @code {
+    [Inject] public AuthenticationStateProvider Auth { get; set; }
+
     private Assembly[] AdditionalAssemblies { get; } = new[]
     {
         typeof(Corelibs.Blazor.UIComponents.Dropdowns.Dropdown).Assembly
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        //return base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        var customAuth = Auth as CustomAuthenticationStateProvider;
+
+        await customAuth.SetAuthenticationStateFromLocalStorage();
+        await customAuth.SaveTokensFromHttp();
+
+        await InvokeAsync(StateHasChanged);
+    }
 }
