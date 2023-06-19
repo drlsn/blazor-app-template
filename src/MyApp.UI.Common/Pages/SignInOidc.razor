@@ -1,0 +1,12 @@
+﻿@page "/signin-oidc"
+
+<h3>SignInOidc</h3>
+
+@code {
+    [Inject] public NavigationManager Navigation { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

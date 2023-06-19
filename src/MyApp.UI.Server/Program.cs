@@ -42,8 +42,21 @@ app.UseCookiePolicy();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/signin-oidc"))
+    {
+        context.Response.Redirect($"http://localhost:7073/signin-oidc");
+        return;
+    }
+
+    await next();
+});
 
 app.Run();
