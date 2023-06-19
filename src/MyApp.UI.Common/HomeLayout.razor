@@ -20,16 +20,9 @@
     [Inject] public AuthenticationStateProvider Auth { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
 
-    HorizontalMenu.ButtonGroup[] TopMenuButtonGroups {
-        get {
-            var res = new List<HorizontalMenu.Button>();
-            if (Auth.IsSignedIn())
-                res.Add(new("dashboard", "Dashboard", IconUrl: $"{Config.BaseAssetsPath}/images/icons/design/grid.png"));
-
-            res.Add(new("login", Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));
-
-            return new HorizontalMenu.ButtonGroup[] { new(res.ToArray()) };
-        }    
+    protected override async Task OnInitializedAsync()
+    {
+        TopMenuButtonGroups = await GetTopMenuButtonGroups();
     }
 
     private async Task OnMenuButtonClick(string id)
@@ -39,5 +32,18 @@
 
         if (id == "dashboard")
             Navigation.NavigateTo(id);
+    }
+
+    HorizontalMenu.ButtonGroup[] TopMenuButtonGroups { get; set; }
+
+    private async Task<HorizontalMenu.ButtonGroup[]> GetTopMenuButtonGroups()
+    {
+        var res = new List<HorizontalMenu.Button>();
+        if (await Auth.IsSignedIn())
+            res.Add(new("dashboard", "Dashboard", IconUrl: $"{Config.BaseAssetsPath}/images/icons/design/grid.png"));
+
+        res.Add(new("login", await Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));
+
+        return new HorizontalMenu.ButtonGroup[] { new(res.ToArray()) };
     }
 }

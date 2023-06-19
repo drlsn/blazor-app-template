@@ -5,15 +5,15 @@ namespace MyApp.UI.Common.Auth;
 
 public static class AuthenticationStateProviderExtensions
 {
-    public static bool IsSignedIn(this AuthenticationStateProvider auth)
+    public static async Task<bool> IsSignedIn(this AuthenticationStateProvider auth)
     {
-        var state = auth.GetAuthenticationStateAsync().GetAwaiter().GetResult();
+        var state = await auth.GetAuthenticationStateAsync();
         return state.User.Identity.IsAuthenticated;
     }
 
-    public static string GetLabel(this AuthenticationStateProvider auth)
+    public static async Task<string> GetLabel(this AuthenticationStateProvider auth)
     {
-        var state = auth.GetAuthenticationStateAsync().GetAwaiter().GetResult();
+        var state = await auth.GetAuthenticationStateAsync();
         if (!state.User.Identity.IsAuthenticated)
             return "Sign In";
 

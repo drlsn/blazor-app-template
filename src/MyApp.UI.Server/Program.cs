@@ -15,8 +15,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
 builder.Services.AddAuthorization(opts =>
 {
-    opts.ProviderOptions.Cache.CacheLocation = "localStorage";
-    opts.AuthenticationPaths.LogOutCallbackPath = "/";
+    //opts.ProviderOptions.Cache.CacheLocation = "localStorage";
+    //opts.AuthenticationPaths.LogOutCallbackPath = "/";
 });
 
 var app = builder.Build();
