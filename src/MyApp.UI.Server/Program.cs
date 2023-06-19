@@ -20,6 +20,7 @@ builder.Services.Configure<OpenIdConnectOptions>(
     {
         options.ResponseType = OpenIdConnectResponseType.Code;
         options.SaveTokens = true;
+        options.ClientSecret = Environment.GetEnvironmentVariable("KinergizeServerClientSecret");
         options.Scope.Add("offline_access");
         options.Scope.Add(options.ClientId);
     });

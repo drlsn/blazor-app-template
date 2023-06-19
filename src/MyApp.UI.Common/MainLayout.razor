@@ -26,11 +26,11 @@
     protected override async Task OnInitializedAsync()
     {
         var state = await Auth.GetAuthenticationStateAsync();
-        if (await Auth.IsSignedIn() is false)
-        {
-            Navigation.NavigateTo("/", forceLoad: true);
-            return;
-        }
+        //if (await Auth.IsSignedIn() is false)
+        //{
+        //    Navigation.NavigateTo("/", forceLoad: true);
+        //    return;
+        //}
 
         BottomLeftMenuButtonGroups = await GetBottomLeftMenuButtonGroups();
 
@@ -49,12 +49,12 @@
     private SideMenu.ButtonGroup[] SideMenuButtonGroups =
     {
         new("General", new SideMenu.Button[]
-    {
-            new("dashboard", "Dashboard", $"{Config.BaseAssetsPath}/images/icons/nav/home.png"),
-            new("plans", "Plans", $"{Config.BaseAssetsPath}/images/icons/basic/news.png"),
-            new("sessions", "Sessions", $"{Config.BaseAssetsPath}/images/icons/basic/time.png"),
-            new("exercises", "Exercises", $"{Config.BaseAssetsPath}/images/icons/gym/arm.png"),
-    })
+        {
+                new("dashboard", "Dashboard", $"{Config.BaseAssetsPath}/images/icons/nav/home.png"),
+                new("plans", "Plans", $"{Config.BaseAssetsPath}/images/icons/basic/news.png"),
+                new("sessions", "Sessions", $"{Config.BaseAssetsPath}/images/icons/basic/time.png"),
+                new("exercises", "Exercises", $"{Config.BaseAssetsPath}/images/icons/gym/arm.png"),
+        })
     };
 
     private HorizontalMenu.ButtonGroup[] TopMenuButtonGroups =

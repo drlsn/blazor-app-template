@@ -37,14 +37,14 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
-            return;
+        //if (!firstRender)
+        //    return;
 
-        var customAuth = Auth as CustomAuthenticationStateProvider;
+        //var customAuth = Auth as CustomAuthenticationStateProvider;
 
-        await customAuth.SetAuthenticationStateFromLocalStorage();
-        await customAuth.SaveTokensFromHttp();
+        //await customAuth.SetAuthenticationStateFromLocalStorage();
+        //await customAuth.SaveTokensFromHttp();
 
-        await InvokeAsync(StateHasChanged);
+        //await InvokeAsync(StateHasChanged);
     }
 }

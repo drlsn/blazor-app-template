@@ -28,9 +28,9 @@
 
     private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
     {
-        var state = await task;
-        await InvokeAsync(StateHasChanged);
-        Console.WriteLine("hoho");
+        //var state = await task;
+        //await InvokeAsync(StateHasChanged);
+        //Console.WriteLine("hoho");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,7 +52,7 @@
     private async Task<HorizontalMenu.ButtonGroup[]> GetTopMenuButtonGroups()
     {
         var res = new List<HorizontalMenu.Button>();
-        if (await Auth.IsSignedIn())
+        //if (await Auth.IsSignedIn())
             res.Add(new("dashboard", "Dashboard", IconUrl: $"{Config.BaseAssetsPath}/images/icons/design/grid.png"));
 
         res.Add(new("login", await Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));
