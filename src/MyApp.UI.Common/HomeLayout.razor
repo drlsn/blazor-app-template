@@ -1,4 +1,5 @@
-﻿@inherits BaseLayout
+﻿@using Microsoft.AspNetCore.Components.Authorization;
+@inherits BaseLayout
 
 <main class="main" style=@_paddingLeftCssAttribute>
     <TopAndSideMenu
@@ -16,30 +17,27 @@
 </main>
 
 @code {
+    [Inject] public AuthenticationStateProvider Auth { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
 
-    static RenderFragment Get()
-    {
-        return builder =>
-        {
-            builder.OpenComponent<LoginDisplay>(0);
-            builder.CloseComponent();
-        };
-    }
+    HorizontalMenu.ButtonGroup[] TopMenuButtonGroups {
+        get {
+            var res = new List<HorizontalMenu.Button>();
+            if (Auth.IsSignedIn())
+                res.Add(new("dashboard", "Dashboard", IconUrl: $"{Config.BaseAssetsPath}/images/icons/design/grid.png"));
 
-    HorizontalMenu.ButtonGroup[] TopMenuButtonGroups =
-    {
-        new(new HorizontalMenu.Button[]
-        {
-            new("login", IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png", Component: Get()),
-        })
-    };
+            res.Add(new("login", Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));
+
+            return new HorizontalMenu.ButtonGroup[] { new(res.ToArray()) };
+        }    
+    }
 
     private async Task OnMenuButtonClick(string id)
     {
         if (id == "login")
-            return;
+            await Auth.SignAction(Navigation);
 
-        Navigation.NavigateTo(id);
+        if (id == "dashboard")
+            Navigation.NavigateTo(id);
     }
 }

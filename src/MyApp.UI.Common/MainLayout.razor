@@ -1,4 +1,5 @@
-﻿@inherits BaseLayout
+﻿@using Microsoft.AspNetCore.Components.Authorization;
+@inherits BaseLayout
 
 <LoginDisplay />
 
@@ -20,6 +21,9 @@
 </main>
 
 @code {
+    [Inject] public AuthenticationStateProvider Auth { get; set; }
+    [Inject] public NavigationManager Navigation { get; set; }
+
     private SideMenu.ButtonGroup[] SideMenuButtonGroups =
     {
         new("General", new SideMenu.Button[]
@@ -39,11 +43,13 @@
         })
     };
 
-    private SideMenu.ButtonGroup[] BottomLeftMenuButtonGroups =
-    {
-        new("Account", new SideMenu.Button[]
-        {
-            new("sign-out", "Sign Out", $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"),
-        })
-    };
+    private SideMenu.ButtonGroup[] BottomLeftMenuButtonGroups {
+        get {
+            var res = new List<SideMenu.Button>();
+
+            res.Add(new("login", Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));
+
+            return new SideMenu.ButtonGroup[] { new("Account", res.ToArray()) };
+        }
+    }
 }

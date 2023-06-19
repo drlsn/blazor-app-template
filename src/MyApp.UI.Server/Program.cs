@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
@@ -12,7 +13,11 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(opts =>
+{
+    opts.ProviderOptions.Cache.CacheLocation = "localStorage";
+    opts.AuthenticationPaths.LogOutCallbackPath = "/";
+});
 
 var app = builder.Build();
 
