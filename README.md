@@ -28,11 +28,32 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 
 ## Production Environment Setup
 
+### Create and Configure AWS Account
+
+- Open AWS Console and go to - IAM
+- Go to users, click add user
+  - Provide User Name, ex. AppUser, ..next
+  - Leave Permissions options as Add user to group, and click Create group
+  - Provide User Group Name, ex. AppUserGroup, ..create
+  - Select created group, ..next, ..create
+- Go to the user users -> Groups, open the group, go to Permissions, Add Permission, Create inline policy
+  - Service - S3
+  - Actions - List
+  - Resources - All resources, ..review
+  - Provide name, ex. ListS3Policy
+- Go to the user again -> Security Credentials -> Create access key
+  - Access key best practices... - Other, ..next
+  - Provide Access Key Name, ex. KinergizeUserAccessKey, ..next
+  - Download .csv file and store safely, ..done
+  
+*Links*
+- [Configuring AWS Credentials for .NET Applications](https://www.youtube.com/watch?v=oY0-1mj4oCo)
+
 ### Configure Amazon SES
 
 &nbsp;&nbsp;&nbsp;&nbsp; *From E2C -> $0.12/1GB sent always; 62,000/month free, then $0.10/1000 emails*
 
-- Open AWS Console and navigate to - Amazon Simple Email Service
+- Open AWS Console and go to - Amazon Simple Email Service
 - Navigate to Verified Identities
 - Click - Create identity
 - Set Identity type as Domain
@@ -45,11 +66,14 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 - Copy TXT similar way - value as is
 - Wait 24h-72h till verified records, continue making ex. cognito user pool
 
+*Links*
+- [How to Use Amazon SES in 2023?](https://www.youtube.com/watch?v=QJ3WwJsbkIQ)
+
 ### Add AWS Cognito authentication
 
 &nbsp;&nbsp;&nbsp;&nbsp; *50,000 free monthly active users (MAUs). Per month. Active user - any activity related to signin, get token, etc. Then $0.0055 / month / user till 900k, and then less..*
 
-- Open AWS Console and navigate to AWS Cognito
+- Open AWS Console and go to AWS Cognito
 - In 1st Configure sign-in experience:
   - In Provider types leave selected as - Cognito user pool
   - In Cognito user pool sign-in options select - User name, Email
