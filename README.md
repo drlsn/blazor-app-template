@@ -206,3 +206,5 @@ location  / {
 
 ## Links
 - https://nikhilpurwant.com/post/tech-lets-encrypt-on-ec2/
+- https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/
+- https://www.youtube.com/watch?v=cdZlakbZ8Cg
