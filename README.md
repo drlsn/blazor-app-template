@@ -109,7 +109,12 @@ aws toolkit for Visual Studio
   - Create user pool
  
 - Go to the pool -> App Integration -> Resource servers -> Create resource server
-
+  - Provide names, ex. AppRS
+  - Add scope name and description, ex. AppScope..
+- Go to earlier created App Client, go to Hosted UI edit
+  - Switch OAuth 2.0 grant types to Client credentials
+  - Select the custom scopes as our previously created scope
+  - Copy Client Id an secret somewhere for later
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
