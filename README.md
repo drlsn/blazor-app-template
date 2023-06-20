@@ -111,7 +111,7 @@ aws toolkit for Visual Studio
 - Go to the pool -> App Integration -> Resource servers -> Create resource server
 
 *Links*
-- [Securing .NET WebAPI with Amazon Cognito](https://www.youtube.com/watch?v=QJ3WwJsbkIQ](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
+- [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
 ### Create AWS E2C instance
 ### Install Docker
