@@ -43,9 +43,12 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 - Copy all CNAME DNS records - name and value (name without domain suffix, ex. 562jsdfsdfssdfpsdfsdfnj3csdf._domainkey) and add it in your domain provider dns settings
 - Copy MX similar way - but trailing value number (ex. 10) exclude from value and paste to DNS priority
 - Copy TXT similar way - value as is
-### Add AWS Cognito authentication
+- Wait 24h-72h till verified records
 
 ### Add AWS Cognito authentication
+
+&nbsp;&nbsp;&nbsp;&nbsp; *50,000 free monthly active users (MAUs). Per month. Active user - any activity related to signin, get token, etc. Then $0.0055 / month / user till 900k, and then less..*
+
 - Open AWS Console and navigate to AWS Cognito
 - In 1st Configure sign-in experience:
   - In Provider types leave selected as - Cognito user pool
