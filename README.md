@@ -28,7 +28,29 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 
 ## Production Environment Setup
 
-### Add Azure B2C authentication
+### Configure Amazon SES
+
+&nbsp;&nbsp;&nbsp;&nbsp; *From E2C -> $0.12/1GB sent always; 62,000/month free, then $0.10/1000 emails*
+
+- Open AWS Console and navigate to Amazon Simple Email Service
+
+### Add AWS Cognito authentication
+
+### Add AWS Cognito authentication
+- Open AWS Console and navigate to AWS Cognito
+- In 1st Configure sign-in experience:
+  - In Provider types leave selected as - Cognito user pool
+  - In Cognito user pool sign-in options select - User name, Email
+  - Select - Allow users to sign in with a preferred user name
+- In 2nd Configure security requirements:
+  - Multi-factor authentication - No MFA
+  - User account recovery - leave as is - Email
+- In 3rd Configure sign-up experience:
+  - Leave all as email
+  - In Additional required attributes select desired:
+    - For instance - name
+- In 4th Configure message delivery:
+  - Leave Email provider as - Amazon SES - From E2C -> $0.12/1GB sent always; 62,000/month free, then $0.10/1000 emails
 ### Create AWS E2C instance
 ### Install Docker
 ### Add elastic IP
