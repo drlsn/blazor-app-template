@@ -44,8 +44,19 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 - Go to the user again -> Security Credentials -> Create access key
   - Access key best practices... - Other, ..next
   - Provide Access Key Name, ex. KinergizeUserAccessKey, ..next
-  - Download .csv file and store safely, ..done
-  
+  - Download .csv file and store safely, ..done  
+
+- Install AWS CLI - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+- Check AWS CLI version
+```
+aws --version
+```
+
+- Configure profile and provide keys
+```
+aws configure --profile <name>
+```
+aws toolkit for Visual Studio
 *Links*
 - [Configuring AWS Credentials for .NET Applications](https://www.youtube.com/watch?v=oY0-1mj4oCo)
 
@@ -91,8 +102,16 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 - In 5th Integrate your app:
   - Provide User Pool name, ex. AppPool
   - Provide App client name, ex. AppClient
+  - Enable Use the Cognito Hosted UI, provide domain
+  - Generate a client secret
+  - Provide Allowed callback URLs, ex. https://app.me/home
 - In 6th Review and Create:
   - Create user pool
+ 
+- Go to the pool -> App Integration -> Resource servers -> Create resource server
+
+*Links*
+- [Securing .NET WebAPI with Amazon Cognito]([https://www.youtube.com/watch?v=QJ3WwJsbkIQ](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/))
 
 ### Create AWS E2C instance
 ### Install Docker
