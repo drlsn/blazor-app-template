@@ -32,8 +32,17 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 
 &nbsp;&nbsp;&nbsp;&nbsp; *From E2C -> $0.12/1GB sent always; 62,000/month free, then $0.10/1000 emails*
 
-- Open AWS Console and navigate to Amazon Simple Email Service
-
+- Open AWS Console and navigate to - Amazon Simple Email Service
+- Navigate to - Verified Identities
+- Click - Create identity
+- Set Identity type as - Domain
+- Provide your - Domain
+- Select - Use a custom MAIL FROM domain
+- Add - MAIL FROM domain - ex. ses
+- In - Advanced DKIM settings - set Identity type as - Easy DKIM, RSA_1024_BIT, Create
+- Copy all CNAME DNS records - name and value (name without domain suffix, ex. 562jsdfsdfssdfpsdfsdfnj3csdf._domainkey) and add it in your domain provider dns settings
+- Copy MX similar way - but trailing value number (ex. 10) exclude from value and paste to DNS priority
+- Copy TXT similar way - value as is
 ### Add AWS Cognito authentication
 
 ### Add AWS Cognito authentication
