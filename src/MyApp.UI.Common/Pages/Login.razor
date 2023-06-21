@@ -2,25 +2,25 @@
 @layout HomeLayout
 
 @using Corelibs.Basic.Auth
-@using System.IdentityModel.Tokens.Jwt;
+@using System.IdentityModel.Tokens.Jwt
 
-<FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
+<div class="login-page">
+    <div class="login-panel">
+        <input class="input" type="text" placeholder="username" @bind=@_login>
+        <input class="input" type="password" placeholder="password" @bind=@_password>
+        <button class="signin-button" @onclick=@OnSignInClick>Sign in</button>
 
-<div class="login-panel">
-    <input class="input" type="text" placeholder="username" @bind=@_login>
-    <input class="input" type="text" placeholder="password" @bind=@_password>
-    <button class="signin-button" @onclick=@OnSignInClick>Sign in</button>
+        @if (_accessToken is not null)
+        {
+            <h6>@_accessToken.RawPayload</h6>
+        }
 
-    @if (_accessToken is not null)
-    {
-        <h6>@_accessToken.RawPayload</h6>
-    }
+        @if (_errorMessage is not null)
+        {
+            <h6>@_errorMessage</h6>
+        }
 
-    @if (_errorMessage is not null)
-    {
-        <h6>@_errorMessage</h6>
-    }
-
+    </div>
 </div>
 
 @code {
@@ -37,7 +37,7 @@
         if (string.IsNullOrWhiteSpace(_login) ||
             string.IsNullOrWhiteSpace(_password))
         {
-            _errorMessage = "Can't have empty pass";
+            _errorMessage = "Can't have empty passes";
             await InvokeAsync(StateHasChanged);
             return;
         }
