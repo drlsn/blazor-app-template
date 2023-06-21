@@ -125,6 +125,12 @@ aws toolkit for Visual Studio
     - client_secret - xxx
     - scope - xxx/xxx
 
+- Create another app client for the password flow authentication. Don’t generate a client secret:
+  - Provide names, ex. AppPassClient
+  - In the authentication flows, select only ALLOW_USER_PASSWORD_AUTH option
+  - Add callback URL
+  - Make sure that you select the Cognito User Pool as the Identity provider and Implicit grant as the grant type
+  - 
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
