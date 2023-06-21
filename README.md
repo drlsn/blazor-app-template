@@ -115,6 +115,16 @@ aws toolkit for Visual Studio
   - Switch OAuth 2.0 grant types to Client credentials
   - Select the custom scopes as our previously created scope
   - Copy Client Id an secret somewhere for later
+ 
+- Test JWT access token generation in Postman:
+  - Method - POST
+  - Url (for cognito domain) - https://<domain>.auth.<region>.amazoncognito.com/oauth2/token
+  - Body (x-www-form-urlencoded)
+    - grant_type - client_credentials
+    - client_id - xxx
+    - client_secret - xxx
+    - scope - xxx/xxx
+
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
