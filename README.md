@@ -130,7 +130,15 @@ aws toolkit for Visual Studio
   - In the authentication flows, select only ALLOW_USER_PASSWORD_AUTH option
   - Add callback URL
   - Make sure that you select the Cognito User Pool as the Identity provider and Implicit grant as the grant type
-  - 
+
+- Go to the user pool and create user
+  - Alias attributes used to sign in - add email
+  - Provide name and email, ..create
+  - In AWS CLI run the command to set a permanent password for the user
+    ```
+    aws cognito-idp admin-set-user-password --user-pool-id "<user-pool-id>"  --username "<username>" --password "<permanent-password>" --permanent
+    ```
+
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
