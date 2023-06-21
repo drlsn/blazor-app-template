@@ -1,0 +1,63 @@
+﻿@page "/login"
+@layout HomeLayout
+
+@using Corelibs.Basic.Auth
+@using System.IdentityModel.Tokens.Jwt;
+
+<FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
+
+<div class="login-panel">
+    <input class="input" type="text" placeholder="username" @bind=@_login>
+    <input class="input" type="text" placeholder="password" @bind=@_password>
+    <button class="signin-button" @onclick=@OnSignInClick>Sign in</button>
+
+    @if (_accessToken is not null)
+    {
+        <h6>@_accessToken.RawPayload</h6>
+    }
+
+    @if (_errorMessage is not null)
+    {
+        <h6>@_errorMessage</h6>
+    }
+
+</div>
+
+@code {
+    [Inject] public IAuthentication Authentication { get; set; }
+
+    private string _login;
+    private string _password;
+
+    private JwtSecurityToken _accessToken;
+    private string _errorMessage;
+
+    private async Task OnSignInClick()
+    {
+        if (string.IsNullOrWhiteSpace(_login) ||
+            string.IsNullOrWhiteSpace(_password))
+        {
+            _errorMessage = "Can't have empty pass";
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        try
+        {
+            var result = await Authentication.SignIn(_login, _password);
+            if (result)
+            {
+                _accessToken = await Authentication.GetAccessToken();
+                _errorMessage = null;
+            }
+            else
+                _errorMessage = "Could not login";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}
