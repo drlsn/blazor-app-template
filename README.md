@@ -139,6 +139,24 @@ aws toolkit for Visual Studio
     aws cognito-idp admin-set-user-password --user-pool-id "<user-pool-id>"  --username "<username>" --password "<permanent-password>" --permanent
     ```
 
+- Test JWT generation:
+  - Method - POST
+  - URL - https://cognito-idp.{region}.amazonaws.com/
+  - Headers
+    - Content-Type : application/x-amz-json-1.1
+    - X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
+    - Body:
+    ```
+    {
+        "AuthParameters" : {
+            "USERNAME" : "<username>",
+            "PASSWORD" : "<password>"
+        },
+        "AuthFlow" : "USER_PASSWORD_AUTH",
+        "ClientId" : "<app-client-id>"
+    }
+    ```
+    
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
