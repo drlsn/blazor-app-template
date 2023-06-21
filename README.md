@@ -156,7 +156,18 @@ aws toolkit for Visual Studio
         "ClientId" : "<app-client-id>"
     }
     ```
-    
+- Update packages in server project if needed:
+```
+dotnet add package Amazon.AspNetCore.Identity.Cognito
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+```
+- Update appsettings.json:
+```
+"Cognito": {
+    "Authority": "https://cognito-idp.{region}.amazonaws.com/{user-pool-id}"
+  },
+```
+
 *Links*
 - [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
 
