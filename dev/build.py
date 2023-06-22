@@ -3,6 +3,7 @@ import sys
 import re
 import shutil
 
+# IMPORTANT - Separate Package or Project references MUST be in on line!
 def generate_files(dockerfile_name, image_name, build_args):
 
     print("Search folder in Dockerfile started")
@@ -60,7 +61,7 @@ def generate_files(dockerfile_name, image_name, build_args):
     print("\ncsproj paths:")
     for element in csproj_paths:
         print(element)
-
+    
     for path in csproj_paths:
         shutil.copy2(path, path + '.copy')
     
@@ -73,14 +74,22 @@ def generate_files(dockerfile_name, image_name, build_args):
             matches = re.findall(pattern, content)
             for match in matches:
                 basename = match[2]  # Extract the matched basename from the third group
+                print(f'Match x: {match[0]}')
+                print(f'Match y: {match[1]}')
                 print(f'Matched basename: {basename}')
                 new_reference = '<ProjectReference Include="{}"'.format(f'../{basename}/{basename}.csproj')
-                content = re.sub(pattern, new_reference, content, flags=re.MULTILINE)
+                
+                lines = content.split('\n')
+                for i, line in enumerate(lines):
+                    if re.search(pattern, line):
+                        lines[i] = re.sub(pattern, new_reference, line, count=1)
+                        content = '\n'.join(lines)
+                        break
+
                 with open(path, 'w') as file:
                     file.write(content)
 
-            print(content)
-
+                print(content)
     try:
         contextFolders = []
 

@@ -8,6 +8,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
+# Corelibs.Cognito
+WORKDIR /src
+COPY ["Corelibs.Cognito/Corelibs.Cognito/Corelibs.Cognito/Corelibs.Cognito.csproj", "Corelibs.Cognito/"]
+RUN dotnet restore "Corelibs.Cognito/Corelibs.Cognito.csproj"
+COPY ["Corelibs.Cognito/Corelibs.Cognito", "." ]
+WORKDIR "/src/Corelibs.Cognito"
+RUN dotnet build "Corelibs.Cognito.csproj" -c Release -o /app/build
+
 # Corelibs.Blazor.UIComponents
 WORKDIR /src
 COPY ["Corelibs.Blazor.UIComponents/src/Corelibs.Blazor.UIComponents/Corelibs.Blazor.UIComponents.csproj", "Corelibs.Blazor.UIComponents/"]
