@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Corelibs.Cognito\Corelibs.Cognito\Corelibs.Cognito\Corelibs.Cognito.csproj" />
     <ProjectReference Include="..\MyApp.UI.Common\MyApp.UI.Common.csproj" />
   </ItemGroup>
 
