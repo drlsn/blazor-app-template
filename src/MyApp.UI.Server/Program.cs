@@ -1,50 +1,62 @@
 using Blazored.LocalStorage;
-using Corelibs.Cognito;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using MyApp.UI.Common.Auth;
-using MyApp.UI.Common.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCognitoIdentity();
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options=>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme= OpenIdConnectDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options =>
-{
-    options.Authority = builder.Configuration["AWS:Cognito:Authority"];
-    options.TokenValidationParameters = new TokenValidationParameters
+.AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+builder.Services.Configure<OpenIdConnectOptions>(
+    OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
-        ValidateIssuerSigningKey = true,
-        ValidateAudience = false
-    };
-});
+        options.ResponseType = OpenIdConnectResponseType.Code;
+        options.SaveTokens = true;
+        options.ClientSecret = Environment.GetEnvironmentVariable("KinergizeServerClientSecret");
+        options.Scope.Add("offline_access");
+        options.Scope.Add(options.ClientId);
+    });
 
-builder.Services.AddCognitoAuthentication(builder.Configuration, assemblyName => new BlazorNotSecureStorage());
-
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+//builder.Services.AddScoped<TokenProvider>();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddAuthorization();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
     app.UseHsts();
 
+app.UseCookiePolicy();
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
-
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/signin-oidc"))
+    {
+        context.Response.Redirect($"http://localhost:7073/signin-oidc");
+        return;
+    }
+
+    await next();
+});
 
 app.Run();

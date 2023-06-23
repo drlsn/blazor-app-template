@@ -41,10 +41,7 @@
     private async Task OnMenuButtonClick(string id)
     {
         if (id == "login")
-        {
-            Navigation.NavigateTo("login");
-            return;
-        }
+            await Auth.SignAction(Navigation);
 
         if (id == "dashboard")
             Navigation.NavigateTo(id);

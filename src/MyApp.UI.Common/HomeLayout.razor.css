@@ -2,13 +2,11 @@
     padding-left: 105px;
     transition: padding-left 300ms ease;
     position: relative;
-    height: 100%;
 }
 
 .main-content {
     padding-top: 25px;
     padding-right: 35px;
-    height: 100%;
 }
 
 @media only screen and (max-width: 600px) {
