@@ -12,9 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(options=>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme= OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 })
 .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.Secure = CookieSecurePolicy.Always;
+});
+
 builder.Services.Configure<OpenIdConnectOptions>(
     OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
@@ -23,6 +29,11 @@ builder.Services.Configure<OpenIdConnectOptions>(
         options.ClientSecret = Environment.GetEnvironmentVariable("KinergizeServerClientSecret");
         options.Scope.Add("offline_access");
         options.Scope.Add(options.ClientId);
+        options.Events.OnRedirectToIdentityProvider = async context =>
+        {
+            if (builder.Environment.IsProduction())
+                context.ProtocolMessage.RedirectUri = "https://kinergize.me/signin-oidc";
+        };
     });
 
 //builder.Services.AddScoped<TokenProvider>();
@@ -35,11 +46,12 @@ builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+app.UseHttpsRedirection();
 if (!app.Environment.IsDevelopment())
     app.UseHsts();
 
 app.UseCookiePolicy();
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
@@ -47,16 +59,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path.StartsWithSegments("/signin-oidc"))
-    {
-        context.Response.Redirect($"http://localhost:7073/signin-oidc");
-        return;
-    }
-
-    await next();
-});
 
 app.Run();
