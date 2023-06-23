@@ -28,6 +28,12 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 
 ## Production Environment Setup
 
+### Create and Configure Azure B2C Authentication
+
+- Remeber to Redirect Urls add both urls for development and production, ex.
+  - https://localhost:7073/signin-oidc
+  - https://mydomain.com/signin-oidc
+
 ### Create and Configure AWS Account
 
 - Open AWS Console and go to - IAM
@@ -60,117 +66,6 @@ aws toolkit for Visual Studio
 *Links*
 - [Configuring AWS Credentials for .NET Applications](https://www.youtube.com/watch?v=oY0-1mj4oCo)
 
-### Configure Amazon SES
-
-&nbsp;&nbsp;&nbsp;&nbsp; *From E2C -> $0.12/1GB sent always; 62,000/month free, then $0.10/1000 emails*
-
-- Open AWS Console and go to - Amazon Simple Email Service
-- Navigate to Verified Identities
-- Click - Create identity
-- Set Identity type as Domain
-- Provide your Domain
-- Select - Use a custom MAIL FROM domain
-- Add MAIL FROM domain - ex. ses
-- In Advanced DKIM settings - set Identity type as - Easy DKIM, RSA_1024_BIT, Create
-- Copy all CNAME DNS records - name and value (name without domain suffix, ex. 562jsdfsdfssdfpsdfsdfnj3csdf._domainkey) and add it in your domain provider dns settings
-- Copy MX similar way - but trailing value number (ex. 10) exclude from value and paste to DNS priority
-- Copy TXT similar way - value as is
-- Wait 24h-72h till verified records, continue making ex. cognito user pool
-
-*Links*
-- [How to Use Amazon SES in 2023?](https://www.youtube.com/watch?v=QJ3WwJsbkIQ)
-
-### Add AWS Cognito authentication
-
-&nbsp;&nbsp;&nbsp;&nbsp; *50,000 free monthly active users (MAUs). Per month. Active user - any activity related to signin, get token, etc. Then $0.0055 / month / user till 900k, and then less..*
-
-- Open AWS Console and go to AWS Cognito
-- In 1st Configure sign-in experience:
-  - In Provider types leave selected as - Cognito user pool
-  - In Cognito user pool sign-in options select - User name, Email
-  - Select - Allow users to sign in with a preferred user name
-- In 2nd Configure security requirements:
-  - Multi-factor authentication - No MFA
-  - User account recovery - leave as is - Email
-- In 3rd Configure sign-up experience:
-  - Leave all as email
-  - In Additional required attributes select desired:
-    - For instance - name
-- In 4th Configure message delivery:
-  - Leave Email provider as 
-  - as FROM email address - choose previosly added Amazon SES email
-- In 5th Integrate your app:
-  - Provide User Pool name, ex. AppPool
-  - Provide App client name, ex. AppClient
-  - Enable Use the Cognito Hosted UI, provide domain
-  - Generate a client secret
-  - Provide Allowed callback URLs, ex. https://app.me/home
-- In 6th Review and Create:
-  - Create user pool
- 
-- Go to the pool -> App Integration -> Resource servers -> Create resource server
-  - Provide names, ex. AppRS
-  - Add scope name and description, ex. AppScope..
-- Go to earlier created App Client, go to Hosted UI edit
-  - Switch OAuth 2.0 grant types to Client credentials
-  - Select the custom scopes as our previously created scope
-  - Copy Client Id an secret somewhere for later
- 
-- Test JWT access token generation in Postman:
-  - Method - POST
-  - Url (for cognito domain) - https://<domain>.auth.<region>.amazoncognito.com/oauth2/token
-  - Body (x-www-form-urlencoded)
-    - grant_type - client_credentials
-    - client_id - xxx
-    - client_secret - xxx
-    - scope - xxx/xxx
-
-- Create another app client for the password flow authentication. Don’t generate a client secret:
-  - Provide names, ex. AppPassClient
-  - In the authentication flows, select only ALLOW_USER_PASSWORD_AUTH option
-  - Add callback URL
-  - Make sure that you select the Cognito User Pool as the Identity provider and Implicit grant as the grant type
-
-- Go to the user pool and create user
-  - Alias attributes used to sign in - add email
-  - Provide name and email, ..create
-  - In AWS CLI run the command to set a permanent password for the user
-    ```
-    aws cognito-idp admin-set-user-password --user-pool-id "<user-pool-id>"  --username "<username>" --password "<permanent-password>" --permanent
-    ```
-
-- Test JWT generation:
-  - Method - POST
-  - URL - https://cognito-idp.{region}.amazonaws.com/
-  - Headers
-    - Content-Type : application/x-amz-json-1.1
-    - X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
-    - Body:
-    ```
-    {
-        "AuthParameters" : {
-            "USERNAME" : "<username>",
-            "PASSWORD" : "<password>"
-        },
-        "AuthFlow" : "USER_PASSWORD_AUTH",
-        "ClientId" : "<app-client-id>"
-    }
-    ```
-- Update packages in server project if needed:
-```
-dotnet add package Amazon.AspNetCore.Identity.Cognito
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-```
-- Update appsettings.json:
-```
-"Cognito": {
-    "Authority": "https://cognito-idp.{region}.amazonaws.com/{user-pool-id}"
-  },
-```
-
-*Links*
-- [Securing .NET WebAPI with Amazon Cognito](https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/)
-
 ### Create AWS E2C instance
 ### Install Docker
 ### Add elastic IP
@@ -189,7 +84,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 - Copy Public IPv4 address of the instance
 - In your domain provider, point desired domains to the copied IP update A records with the IP
   
-### Add SSL certificate
+### Configure NGinx and add SSL certificate
 - Add inbound rule in AWS E2C instance for port HTTPS 443
 - Install and start nginx
 ```
@@ -290,9 +185,9 @@ location / {
 }
 ```
 
-### Reverse proxy nginx into app port
+- Forward https requests into your app port:
 
-Here at port 3000:
+*Here at port 3000:*
 ```
 location  / {
   add_header 'Access-Control-Allow-Origin' '*'; 
@@ -300,6 +195,23 @@ location  / {
   proxy_set_header X-Forwarded-Server $host;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_pass http://localhost:3000;
+}
+```
+
+- Redirect to single domain as server_name use any domains to be redirected from (same for http - port 80):
+```
+server {
+    listen       443 ssl http2;
+    listen       [::]:443 ssl http2;
+    server_name  kinergize.com www.kinergize.com kinergize.pl www.kinergize.pl;
+    root         /usr/share/nginx/html;
+    
+    include /etc/nginx/default.d/*.conf;
+    
+    ssl_certificate "/etc/letsencrypt/live/kinergize.com/fullchain.pem";
+    ssl_certificate_key "/etc/letsencrypt/live/kinergize.com/privkey.pem";
+    
+    return 301 https://kinergize.me$request_uri;
 }
 ```
 
