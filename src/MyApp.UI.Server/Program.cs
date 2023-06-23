@@ -1,11 +1,8 @@
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using MyApp.UI.Common.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,13 +30,15 @@ builder.Services.Configure<OpenIdConnectOptions>(
         {
             if (builder.Environment.IsProduction())
                 context.ProtocolMessage.RedirectUri = "https://kinergize.me/signin-oidc";
+        }; 
+        options.Events.OnRedirectToIdentityProviderForSignOut = async context =>
+        {
+            if (builder.Environment.IsProduction())
+                context.ProtocolMessage.PostLogoutRedirectUri = "https://kinergize.me/";
         };
     });
 
-//builder.Services.AddScoped<TokenProvider>();
-builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
