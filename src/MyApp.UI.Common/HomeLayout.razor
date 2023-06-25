@@ -2,6 +2,7 @@
 @using MyApp.UI.Common.Data;
 @using MyApp.UseCases.Users;
 @inherits BaseLayout
+@implements IDisposable
 
 <main class="main" style=@_paddingLeftCssAttribute>
     <TopAndSideMenu
@@ -25,6 +26,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        if (await Auth.IsSignedIn())
+            await CommandExecutor.Execute<CreateUserCommand>();
+
+        Auth.AuthenticationStateChanged += OnAuthenticationStateChanged;
         TopMenuButtonGroups = await GetTopMenuButtonGroups();
     }
 
@@ -33,14 +38,19 @@
         TopMenuButtonGroups = await GetTopMenuButtonGroups();
     }
 
+    void IDisposable.Dispose()
+    {
+        Auth.AuthenticationStateChanged -= OnAuthenticationStateChanged;
+    }
+
+    private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
+    {
+    }
+
     private async Task OnMenuButtonClick(string id)
     {
         if (id == "login")
-        {
             await Auth.SignAction(Navigation);
-            if (await Auth.IsSignedIn())
-                await CommandExecutor.Execute<CreateUserCommand>();
-        }
         
         if (id == "dashboard")
             Navigation.NavigateTo(id);

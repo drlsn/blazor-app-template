@@ -18,7 +18,7 @@ public static class Startup
     {
         services.AddScoped<IAccessorAsync<CurrentUser>, CurrentUserAccessor>();
         services.AddMediator(opts => opts.ServiceLifetime = ServiceLifetime.Scoped);
-        services.AddSingleton<ICommandExecutor, CommandExecutor>();
+        services.AddScoped<ICommandExecutor, CommandExecutor>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MongoDbTransactionBehaviour<,>));
         services.AddRepositories(environment);
     }
@@ -42,7 +42,7 @@ public static class Startup
         var client = new MongoClient(connectionString);
         services.AddSingleton<MongoClient>();
 
-        services.AddScoped<IClientSession>(sp =>
+        services.AddScoped<IClientSessionHandle>(sp =>
         {
             var client = sp.GetRequiredService<MongoClient>();
             var session = client.StartSession();
