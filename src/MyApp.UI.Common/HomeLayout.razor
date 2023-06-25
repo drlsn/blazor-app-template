@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization;
+@using MyApp.UI.Common.Data;
+@using MyApp.UseCases.Users;
 @inherits BaseLayout
 
 <main class="main" style=@_paddingLeftCssAttribute>
@@ -19,18 +21,11 @@
 @code {
     [Inject] public AuthenticationStateProvider Auth { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
+    [Inject] public ICommandExecutor CommandExecutor { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Auth.AuthenticationStateChanged += OnAuthenticationStateChanged;
         TopMenuButtonGroups = await GetTopMenuButtonGroups();
-    }
-
-    private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
-    {
-        //var state = await task;
-        //await InvokeAsync(StateHasChanged);
-        //Console.WriteLine("hoho");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -41,8 +36,12 @@
     private async Task OnMenuButtonClick(string id)
     {
         if (id == "login")
+        {
             await Auth.SignAction(Navigation);
-
+            if (await Auth.IsSignedIn())
+                await CommandExecutor.Execute<CreateUserCommand>();
+        }
+        
         if (id == "dashboard")
             Navigation.NavigateTo(id);
     }
@@ -52,7 +51,7 @@
     private async Task<HorizontalMenu.ButtonGroup[]> GetTopMenuButtonGroups()
     {
         var res = new List<HorizontalMenu.Button>();
-        //if (await Auth.IsSignedIn())
+        if (await Auth.IsSignedIn())
             res.Add(new("dashboard", "Dashboard", IconUrl: $"{Config.BaseAssetsPath}/images/icons/design/grid.png"));
 
         res.Add(new("login", await Auth.GetLabel(), IconUrl: $"{Config.BaseAssetsPath}/images/icons/basic/exit.png"));

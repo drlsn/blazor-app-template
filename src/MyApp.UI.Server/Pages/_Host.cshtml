@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authentication;
 @using Microsoft.AspNetCore.Components.Web
 @using MyApp.UI.Common;
+@using MyApp.UI.Server.Data;
 @namespace MyApp.UI.Server.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -19,6 +21,7 @@
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
+
     <component type="typeof(App)" render-mode="ServerPrerendered" />
 
     <div id="blazor-error-ui">

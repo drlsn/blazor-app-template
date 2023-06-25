@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{90A734C4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.Basic", "..\..\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic.csproj", "{19754040-E786-4070-974D-E7A4E55FDD7E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.MongoDB", "..\..\Corelibs.MongoDB\Corelibs.MongoDB\Corelibs.MongoDB.csproj", "{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,14 @@ Global
 		{19754040-E786-4070-974D-E7A4E55FDD7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19754040-E786-4070-974D-E7A4E55FDD7E}.Release|x64.ActiveCfg = Release|x64
 		{19754040-E786-4070-974D-E7A4E55FDD7E}.Release|x64.Build.0 = Release|x64
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

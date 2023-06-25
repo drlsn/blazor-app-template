@@ -1,8 +1,10 @@
+using Corelibs.Basic.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using MyApp.UI.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,8 @@ builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.InitializeApp(builder.Environment);
 
 var app = builder.Build();
 
