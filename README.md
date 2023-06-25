@@ -6,7 +6,10 @@
 - Rename all occurences of "MyApp" to desired name in:
   - project names
   - folder names
-  - find and replace all occurences of "MyApp" keyword in the solution
+  - find and replace all occurences of "MyApp" keyword in the solution:
+    - Namespaces
+    - Database connection string environment variable name
+    - Database names - prord and dev
 
 ## Development Environment Setup
 
