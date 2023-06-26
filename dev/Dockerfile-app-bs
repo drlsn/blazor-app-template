@@ -8,6 +8,22 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
+# Corelibs.Basic
+WORKDIR /src
+COPY ["Corelibs.Basic/Corelibs.Basic/Corelibs.Basic/Corelibs.Basic.csproj", "Corelibs.Basic/"]
+RUN dotnet restore "Corelibs.Basic/Corelibs.Basic.csproj"
+COPY ["Corelibs.Basic/Corelibs.Basic", "." ]
+WORKDIR "/src/Corelibs.Basic/"
+RUN dotnet build "Corelibs.Basic.csproj" -c Release -o /app/build
+
+# Corelibs.MongoDB
+WORKDIR /src
+COPY ["Corelibs.MongoDB/Corelibs.MongoDB/Corelibs.MongoDB.csproj", "Corelibs.MongoDB/"]
+RUN dotnet restore "Corelibs.MongoDB/Corelibs.MongoDB.csproj"
+COPY ["Corelibs.MongoDB", "." ]
+WORKDIR "/src/Corelibs.MongoDB/"
+RUN dotnet build "Corelibs.MongoDB.csproj" -c Release -o /app/build
+
 # Corelibs.Blazor.UIComponents
 WORKDIR /src
 COPY ["Corelibs.Blazor.UIComponents/src/Corelibs.Blazor.UIComponents/Corelibs.Blazor.UIComponents.csproj", "Corelibs.Blazor.UIComponents/"]
@@ -15,6 +31,22 @@ RUN dotnet restore "Corelibs.Blazor.UIComponents/Corelibs.Blazor.UIComponents.cs
 COPY ["Corelibs.Blazor.UIComponents/src", "." ]
 WORKDIR "/src/Corelibs.Blazor.UIComponents/"
 RUN dotnet build "Corelibs.Blazor.UIComponents.csproj" -c Release -o /app/build
+
+# MyApp.Entities
+WORKDIR /src
+COPY ["blazor-app-template/src/MyApp.Entities/MyApp.Entities.csproj", "MyApp.Entities/"]
+RUN dotnet restore "MyApp.Entities/MyApp.Entities.csproj"
+COPY ["blazor-app-template/src", "." ]
+WORKDIR "/src/MyApp.Entities/"
+RUN dotnet build "MyApp.Entities.csproj" -c Release -o /app/build
+
+# MyApp.UseCases
+WORKDIR /src
+COPY ["blazor-app-template/src/MyApp.UseCases/MyApp.UseCases.csproj", "MyApp.UseCases/"]
+RUN dotnet restore "MyApp.UseCases/MyApp.UseCases.csproj"
+COPY ["blazor-app-template/src", "." ]
+WORKDIR "/src/MyApp.UseCases/"
+RUN dotnet build "MyApp.UseCases.csproj" -c Release -o /app/build
 
 # MyApp.UI.Common
 WORKDIR /src
