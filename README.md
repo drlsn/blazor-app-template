@@ -31,6 +31,16 @@ py build.py Dockerfile-app-bs user/app-bs:0.0.1
 
 ## Production Environment Setup
 
+Docker run command:
+```
+# Format:
+ docker run -e "<MyAppServerClientSecret>=xxx" -e "<MyAppDatabaseConn>=mongodb+srv://<mongoLogin>:<mongoPassword>@cluster0-rgv8x.mongodb.net/test?retryWrites=false&w=majority" -p 7073:80 -d <dockerLogin>/<MyApp>-bs:0.1.6
+```
+###
+
+- Create mongo cloud database account
+- In security - network access Add allowed ips for dev and prod environments
+
 ### Create and Configure Azure B2C Authentication
 
 - Remeber to Redirect Urls add both urls for development and production, ex.
