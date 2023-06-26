@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.Basic", "..\..\Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.MongoDB", "..\..\Corelibs.MongoDB\Corelibs.MongoDB\Corelibs.MongoDB.csproj", "{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.Blazor.UIComponents", "..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\Corelibs.Blazor.UIComponents.csproj", "{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,14 @@ Global
 		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|x64.ActiveCfg = Release|Any CPU
 		{1C4E60A5-C310-4ED7-990F-B66031A3F2E2}.Release|x64.Build.0 = Release|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Debug|x64.Build.0 = Debug|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|x64.ActiveCfg = Release|Any CPU
+		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

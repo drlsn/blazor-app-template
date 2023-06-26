@@ -43,8 +43,8 @@ namespace MyApp.UseCases.Users
 
             var userId = new UserId(currentUser.Id);
             var user = await _userRepository.Get(userId, result);
-            if (!result.IsSuccess || user != null)
-                return result.Fail();
+            if (user != null)
+                return result;
 
             var planAimControl = new PlanAimControl();
             var sessionAimControl = new SessionAimControl();

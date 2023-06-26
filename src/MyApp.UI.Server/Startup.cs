@@ -2,6 +2,7 @@
 using Corelibs.Basic.Repository;
 using Corelibs.MongoDB;
 using Mediator;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MyApp.Entities.ExercisesAimsControls;
 using MyApp.Entities.PlanAimControls;
@@ -18,7 +19,7 @@ public static class Startup
     {
         services.AddScoped<IAccessorAsync<CurrentUser>, CurrentUserAccessor>();
         services.AddMediator(opts => opts.ServiceLifetime = ServiceLifetime.Scoped);
-        services.AddScoped<ICommandExecutor, CommandExecutor>();
+        services.AddScoped<ICommandExecutor, MediatorCommandExecutor>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MongoDbTransactionBehaviour<,>));
         services.AddRepositories(environment);
     }
@@ -39,23 +40,14 @@ public static class Startup
         string connectionString, string databaseName, string collectionName)
         where TEntity : IEntity<TEntityId>
     {
-        var client = new MongoClient(connectionString);
-        services.AddSingleton<MongoClient>();
+        services.AddSingleton<MongoClient>(sp => new MongoClient(connectionString));
 
-        services.AddScoped<IClientSessionHandle>(sp =>
-        {
-            var client = sp.GetRequiredService<MongoClient>();
-            var session = client.StartSession();
-
-            return session;
-        });
+        services.AddScoped<MongoConnection>();
 
         services.AddScoped<IRepository<TEntity, TEntityId>>(sp =>
         {
-            var client = sp.GetRequiredService<MongoClient>();
-            var session = sp.GetRequiredService<IClientSessionHandle>();
-
-            return new MongoDbRepository<TEntity, TEntityId>(client, session, databaseName, collectionName);
+            var connection = sp.GetRequiredService<MongoConnection>();
+            return new MongoDbRepository<TEntity, TEntityId>(connection, collectionName);
         });
     }
 }
