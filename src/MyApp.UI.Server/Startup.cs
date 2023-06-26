@@ -40,9 +40,9 @@ public static class Startup
         string connectionString, string databaseName, string collectionName)
         where TEntity : IEntity<TEntityId>
     {
-        services.AddSingleton<MongoClient>(sp => new MongoClient(connectionString));
+        services.AddSingleton(sp => new MongoClient(connectionString));
 
-        services.AddScoped<MongoConnection>();
+        services.AddScoped<MongoConnection>(sp => new(databaseName));
 
         services.AddScoped<IRepository<TEntity, TEntityId>>(sp =>
         {
