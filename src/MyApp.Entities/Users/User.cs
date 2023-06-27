@@ -10,18 +10,17 @@ public record UserId(string Value) : EntityId(Value);
 public class User : Entity<UserId>
 {
     public User(
-        UserId id, 
-        PlanAimControlId planAimControlId, 
+        UserId userId,
+        PlanAimControlId planAimControlId,
         SessionAimControlId sessionAimControlId, 
-        ExerciseAimControlId exerciseAimControlId) : base(id)
+        ExerciseAimControlId exerciseAimControlId) : base(userId)
     {
         PlanAimControlId = planAimControlId;
         SessionAimControlId = sessionAimControlId;
         ExerciseAimControlId = exerciseAimControlId;
     }
 
-    public PlanAimControlId PlanAimControlId { get; private set; }
-    public SessionAimControlId SessionAimControlId { get; private set; }
-    public ExerciseAimControlId ExerciseAimControlId { get; private set; }
-
+    public PlanAimControlId PlanAimControlId { get; init; }
+    public SessionAimControlId SessionAimControlId { get; init; }
+    public ExerciseAimControlId ExerciseAimControlId { get; init; }
 }
