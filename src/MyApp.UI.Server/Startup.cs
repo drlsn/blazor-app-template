@@ -28,7 +28,8 @@ public static class Startup
     {
         var cs = Environment.GetEnvironmentVariable("MyAppDatabaseConn");
         var databaseName = environment.IsDevelopment() ? "MyApp_dev" : "MyApp_prod";
-        
+
+        MongoConventionPackExtensions.AddIgnoreConventionPack();
         services.AddMongoRepository<User, UserId>(cs, databaseName, "users");
         services.AddMongoRepository<PlanAimControl, PlanAimControlId>(cs, databaseName, "planAims");
         services.AddMongoRepository<SessionAimControl, SessionAimControlId>(cs, databaseName, "sessionAims");
