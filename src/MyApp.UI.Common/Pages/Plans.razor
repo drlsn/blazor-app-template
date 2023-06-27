@@ -1,4 +1,4 @@
-﻿@page "/dashboard"
+﻿@page "/plans"
 
 <FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
 
@@ -18,13 +18,6 @@
                 <Item_1 Title="Full Body" DropdownModel=@DropdownModel />
 
             </List_1>
-            <List_1 
-                Title="Sessions">
-                
-                <Item_1 Title="Weights - Push-Pull - Chest, Shoulders, Triceps, Legs" />
-                <Item_1 Title="Calisthenics - Split - Back" />
-
-            </List_1>
         </div>
     </div>
     <div class="v-list">
@@ -32,7 +25,6 @@
             Title="Ownership" 
             Model=@OwnershipFilterDropdownModel 
             OnOptionSelected=OnOwnershipFilterDropdownModelOptionSelected />
-        
     </div>
 </div>
 

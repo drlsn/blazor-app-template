@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.MongoDB", "..\..\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.Blazor.UIComponents", "..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\Corelibs.Blazor.UIComponents.csproj", "{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Infrastructure", "MyApp.Infrastructure\MyApp.Infrastructure.csproj", "{E82B5CAA-7A25-4C63-9502-209BABBE0709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,14 @@ Global
 		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|x64.ActiveCfg = Release|Any CPU
 		{38FCD5D7-1A0D-4327-B270-87AB0E54CE90}.Release|x64.Build.0 = Release|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Debug|x64.Build.0 = Debug|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Release|x64.ActiveCfg = Release|Any CPU
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +110,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B9C154C2-5A14-4911-B9EC-A7218838180E} = {90A734C4-6F0A-47D8-82E9-BBC1B2E085BC}
 		{9426DE35-A729-4145-99B4-F34002B59461} = {90A734C4-6F0A-47D8-82E9-BBC1B2E085BC}
+		{E82B5CAA-7A25-4C63-9502-209BABBE0709} = {90A734C4-6F0A-47D8-82E9-BBC1B2E085BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58BAE52E-CD95-4E67-9184-028B86A93B06}
