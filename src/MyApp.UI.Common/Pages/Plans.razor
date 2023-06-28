@@ -1,4 +1,6 @@
 ﻿@page "/plans"
+@using MyApp.UI.Common.Data;
+@using MyApp.UseCases.Plans;
 
 <FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
 
@@ -29,6 +31,8 @@
 </div>
 
 @code {
+    [Inject] public IQueryExecutor QueryExecutor { get; set; }
+
     private Dropdown.ViewModel DropdownModel = new(
         Options: new()
         {
@@ -48,6 +52,11 @@
         },
         Trigger: new(BgOn: true)
     );
+
+    protected override async Task OnInitializedAsync()
+    {
+        var value = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+    }
 
     private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
     {

@@ -2,7 +2,6 @@
 using Corelibs.Basic.Repository;
 using Corelibs.MongoDB;
 using Mediator;
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MyApp.Entities.ExercisesAimsControls;
 using MyApp.Entities.PlanAimControls;
@@ -19,8 +18,9 @@ public static class Startup
     {
         services.AddScoped<IAccessorAsync<CurrentUser>, CurrentUserAccessor>();
         services.AddMediator(opts => opts.ServiceLifetime = ServiceLifetime.Scoped);
-        services.AddScoped<ICommandExecutor, MediatorCommandExecutor>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MongoDbTransactionBehaviour<,>));
+        services.AddScoped<IQueryExecutor, MediatorQueryExecutor>();
+        services.AddScoped<ICommandExecutor, MediatorCommandExecutor>();
         services.AddRepositories(environment);
     }
 

@@ -8,6 +8,6 @@ public record PlanId(string Value) : EntityId(Value);
 
 public class Plan : Entity<PlanId>
 {
-    public UserId UserId { get; init; }
+    public UserId OwnerId { get; init; }
     public string Name { get; set; }
 }

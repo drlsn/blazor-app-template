@@ -3,6 +3,7 @@ using Corelibs.Basic.DDD;
 using Corelibs.Basic.Repository;
 using Corelibs.MongoDB;
 using Mediator;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MyApp.Entities.Plans;
 using MyApp.Entities.Users;
@@ -12,16 +13,13 @@ namespace MyApp.Infrastructure.UseCases.Queries
 {
     public class GetOwnPlansQueryHandler : IQueryHandler<GetOwnPlansQuery, Result<GetOwnPlansQueryResponse>>
     {
-        private readonly IClientSessionHandle _session;
         private readonly MongoConnection _mongoConnection;
         private readonly IAccessorAsync<CurrentUser> _currentUserAccessor;
 
         public GetOwnPlansQueryHandler(
-            IClientSessionHandle session,
             MongoConnection mongoConnection,
             IAccessorAsync<CurrentUser> currentUserAccessor)
         {
-            _session = session;
             _mongoConnection = mongoConnection;
             _currentUserAccessor = currentUserAccessor;
         }
@@ -37,13 +35,17 @@ namespace MyApp.Infrastructure.UseCases.Queries
             var collection = _mongoConnection.Database.GetCollection<Plan>("plans");
 
             var userId = new UserId(currentUser.Id);
-            var filter = Builders<Plan>.Filter.Eq(x => x.UserId, userId);
+            var filter = Builders<Plan>.Filter.Eq(x => x.OwnerId, userId);
 
-            var projection = Builders<Plan>.Projection.Include(x => x.Name);
+            var projection = Builders<Plan>.Projection
+                .Include(x => x.Id)
+                .Include(x => x.Name);
 
-            var doc = collection.Find(filter).Project(projection).FirstOrDefault();
+            var docs = await collection.Find(filter).Project(projection).ToListAsync();
+            var vms = docs.Select(doc => BsonSerializer.Deserialize<PlanVM>(doc)).ToArray();
 
-            throw new NotImplementedException();
+            return result.With(
+                new GetOwnPlansQueryResponse(vms));
         }
     }
 }
