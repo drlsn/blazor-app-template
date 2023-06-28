@@ -7,8 +7,10 @@ namespace MyApp.Entities.Users;
 
 public record UserId(string Value) : EntityId(Value);
 
-public class User : Entity<UserId>
+public class User : Entity<UserId>, IAggregateRoot<UserId>
 {
+    public const string DefaultCollectionName = "users";
+
     public User(
         UserId userId,
         PlanAimControlId planAimControlId,

@@ -1,8 +1,11 @@
 ﻿@page "/plans"
+@using Corelibs.Basic.Collections;
 @using MyApp.UI.Common.Data;
 @using MyApp.UseCases.Plans;
 
 <FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
+
+@if (_plans.IsNullOrEmpty()) { return; }
 
 <div class="grid-1x2f">
     <div class="v-list">
@@ -13,11 +16,10 @@
                 DropdownModel=@DropdownModel
                 OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected>
 
-                <Item_1 Title="Weights - Push-Pull" DropdownModel=@DropdownModel OnItemClick=@OnItemClick/>
-                <Item_1 Title="Calisthenics - Push-Pull" DropdownModel=@DropdownModel />
-                <Item_1 Title="Split" DropdownModel=@DropdownModel />
-                <Item_1 Title="Push-Pull-Legs" DropdownModel=@DropdownModel />
-                <Item_1 Title="Full Body" DropdownModel=@DropdownModel />
+                @foreach (var plan in _plans)
+                {
+                    <Item_1 Id=@plan.Id Title=@plan.Name DropdownModel=@DropdownModel OnItemClick=OnItemClick />
+                }
 
             </List_1>
         </div>
@@ -32,6 +34,8 @@
 
 @code {
     [Inject] public IQueryExecutor QueryExecutor { get; set; }
+
+    private PlanVM[] _plans;
 
     private Dropdown.ViewModel DropdownModel = new(
         Options: new()
@@ -55,7 +59,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var value = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        _plans = response.Plans;
     }
 
     private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)

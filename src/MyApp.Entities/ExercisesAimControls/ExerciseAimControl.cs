@@ -7,8 +7,10 @@ namespace MyApp.Entities.ExercisesAimsControls;
 
 public record ExerciseAimControlId(string Value) : EntityId(Value);
 
-public class ExerciseAimControl : AimControl<Exercise, ExerciseId, ExerciseAim, ExerciseAimId, ExerciseAimControlId>
+public class ExerciseAimControl : AimControl<Exercise, ExerciseId, ExerciseAim, ExerciseAimId, ExerciseAimControlId>, IAggregateRoot<ExerciseAimControlId>
 {
+    public const string DefaultCollectionName = "exerciseAimControls";
+
     protected override ExerciseAim CreateAim(Exercise exercise, DateTime startedTime) =>
         new ExerciseAim(exercise.Id, startedTime);
 }

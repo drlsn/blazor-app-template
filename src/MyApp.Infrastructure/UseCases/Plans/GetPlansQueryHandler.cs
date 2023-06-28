@@ -42,7 +42,9 @@ namespace MyApp.Infrastructure.UseCases.Queries
                 .Include(x => x.Name);
 
             var docs = await collection.Find(filter).Project(projection).ToListAsync();
-            var vms = docs.Select(doc => BsonSerializer.Deserialize<PlanVM>(doc)).ToArray();
+
+            var plans = docs.Select(doc => BsonSerializer.Deserialize<Plan>(doc)).ToArray();
+            var vms = plans.Select(p => new PlanVM(p.Id.Value, p.Name)).ToArray();
 
             return result.With(
                 new GetOwnPlansQueryResponse(vms));
