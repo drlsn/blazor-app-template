@@ -12,11 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
-    <PackageReference Include="Corelibs.Blazor.UIComponents" Version="*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Corelibs.Blazor.UIComponents\src\Corelibs.Blazor.UIComponents\Corelibs.Blazor.UIComponents.csproj" />
     <ProjectReference Include="..\MyApp.Infrastructure\MyApp.Infrastructure.csproj" />
     <ProjectReference Include="..\MyApp.UseCases\MyApp.UseCases.csproj" />
   </ItemGroup>

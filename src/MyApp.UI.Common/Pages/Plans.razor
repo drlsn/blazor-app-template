@@ -12,8 +12,6 @@
         <div class="grid-1x2">
             <List_1 
                 Title="Your Plans"
-                Description="Add, Remove, Choose from Public.."
-                DropdownModel=@DropdownModel
                 OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected>
 
                 @foreach (var plan in _plans)
@@ -26,7 +24,7 @@
     </div>
     <div class="v-list">
         <DropdownWithLabel 
-            Title="Ownership" 
+            Title="Ownership"
             Model=@OwnershipFilterDropdownModel 
             OnOptionSelected=OnOwnershipFilterDropdownModelOptionSelected />
     </div>
@@ -36,6 +34,31 @@
     [Inject] public IQueryExecutor QueryExecutor { get; set; }
 
     private PlanVM[] _plans;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        _plans = response?.Plans;
+    }
+
+    private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
+    {
+        Console.WriteLine(option.ToString());
+        return true;
+    }
+
+    private async Task<bool> OnOwnershipFilterDropdownModelOptionSelected(Dropdown.Option option)
+    {
+        Console.WriteLine(option.ToString());
+        return true;
+    }
+
+    private Task OnItemClick(string id)
+    {
+        Console.WriteLine("OnItemClick");
+        return Task.CompletedTask;
+    }
 
     private Dropdown.ViewModel DropdownModel = new(
         Options: new()
@@ -56,28 +79,4 @@
         },
         Trigger: new(BgOn: true)
     );
-
-    protected override async Task OnInitializedAsync()
-    {
-        var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
-        _plans = response.Plans;
-    }
-
-    private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
-    {
-        Console.WriteLine(option.ToString());
-        return true;
-    }
-
-    private async Task<bool> OnOwnershipFilterDropdownModelOptionSelected(Dropdown.Option option)
-    {
-        Console.WriteLine(option.ToString());
-        return true;
-    }
-
-    private Task OnItemClick(string id)
-    {
-        Console.WriteLine("OnItemClick");
-        return Task.CompletedTask;
-    }
 }
