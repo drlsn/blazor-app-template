@@ -47,7 +47,7 @@ Docker run command:
   - https://localhost:7073/signin-oidc
   - https://mydomain.com/signin-oidc
  
-- Add Roles claim, if doing API
+- Add Roles claim - https://www.clintmcmahon.com/add-role-claims-to-an-azure-b2c-user-flow-access-token/
 
 *Links*
 - [How to add role claims to an Azure B2C user flow access token](https://www.clintmcmahon.com/add-role-claims-to-an-azure-b2c-user-flow-access-token/)
