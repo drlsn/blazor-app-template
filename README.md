@@ -46,6 +46,11 @@ Docker run command:
 - Remeber to Redirect Urls add both urls for development and production, ex.
   - https://localhost:7073/signin-oidc
   - https://mydomain.com/signin-oidc
+ 
+- Add Roles claim
+
+*Links*
+- [How to add role claims to an Azure B2C user flow access token](https://www.clintmcmahon.com/add-role-claims-to-an-azure-b2c-user-flow-access-token/)
 
 ### Create and Configure AWS Account
 
