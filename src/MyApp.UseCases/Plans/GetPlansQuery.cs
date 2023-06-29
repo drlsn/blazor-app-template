@@ -1,11 +1,10 @@
 ﻿using Corelibs.Basic.Blocks;
 using Mediator;
 
-namespace MyApp.UseCases.Plans
-{
-    public record GetOwnPlansQuery : IQuery<Result<GetOwnPlansQueryResponse>>;
+namespace MyApp.UseCases.Plans;
 
-    public record GetOwnPlansQueryResponse(PlanVM[] Plans);
+public record GetOwnPlansQuery : IQuery<Result<GetOwnPlansQueryResponse>>;
 
-    public record PlanVM(string Id, string Name);
-}
+public record GetOwnPlansQueryResponse(PlanVM[] Plans);
+
+public record PlanVM(string Id, string Name);
