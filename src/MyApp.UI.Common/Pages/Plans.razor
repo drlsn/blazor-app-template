@@ -2,6 +2,7 @@
 @using Corelibs.Basic.Collections;
 @using MyApp.UI.Common.Data;
 @using MyApp.UseCases.Plans;
+@using Corelibs.Basic.Reflection;
 
 <FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
 
@@ -12,14 +13,8 @@
         <div class="grid-1x2">
             <List_1 
                 Title="Your Plans"
-                OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected>
-
-                @foreach (var plan in _plans)
-                {
-                    <Item_1 Id=@plan.Id Title=@plan.Name DropdownModel=@DropdownModel OnItemClick=OnItemClick />
-                }
-
-            </List_1>
+                ListItems=@_listItems
+                OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected />
         </div>
     </div>
     <div class="v-list">
@@ -34,12 +29,14 @@
     [Inject] public IQueryExecutor QueryExecutor { get; set; }
 
     private PlanVM[] _plans;
-
+    private List_1.ListItemsModel _listItems = new();
 
     protected override async Task OnInitializedAsync()
     {
         var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
         _plans = response?.Plans;
+
+        _listItems.Values = _plans.Select(p => new List_1.ListItem(p.Id, p.Name)).ToList();
     }
 
     private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
@@ -60,7 +57,7 @@
         return Task.CompletedTask;
     }
 
-    private Dropdown.ViewModel DropdownModel = new(
+    private static Dropdown.ViewModel DropdownModel = new(
         Options: new()
         {
             "Add",
