@@ -4,7 +4,7 @@
 @using MyApp.UseCases.Plans;
 @using Corelibs.Basic.Reflection;
 
-<FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />
+@*<FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />*@
 
 @if (_plans.IsNullOrEmpty()) { return; }
 
@@ -14,6 +14,7 @@
             <List_1 
                 Title="Your Plans"
                 ListItems=@_listItems
+                OnAddItemOnTop=@OnAddItem
                 OnMenuOptionSelected=@OnWorkoutPlansListDropdownOptionSelected />
         </div>
     </div>
@@ -27,16 +28,15 @@
 
 @code {
     [Inject] public IQueryExecutor QueryExecutor { get; set; }
+    [Inject] public ICommandExecutor CommandExecutor { get; set; }
+    [Inject] public NavigationManager Navigation { get; set; }
 
     private PlanVM[] _plans;
-    private List_1.ListItemsModel _listItems = new();
+    private List<List_1.ListItem> _listItems;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
-        _plans = response?.Plans;
-
-        _listItems.Values = _plans.Select(p => new List_1.ListItem(p.Id, p.Name)).ToList();
+        await RefreshViewModel();
     }
 
     private async Task<bool> OnWorkoutPlansListDropdownOptionSelected(Dropdown.Option option)
@@ -51,10 +51,32 @@
         return true;
     }
 
+    private async Task<bool> OnAddItem(string name)
+    {
+        //await CommandExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        await RefreshView();
+        return false;
+    }
+
     private Task OnItemClick(string id)
     {
         Console.WriteLine("OnItemClick");
         return Task.CompletedTask;
+    }
+
+    protected async Task<bool> RefreshView()
+    {
+        await RefreshViewModel();
+        await InvokeAsync(StateHasChanged);
+        return true;
+    }
+
+    protected async Task RefreshViewModel()
+    {
+        var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        _plans = response?.Plans;
+
+        _listItems = _plans.Select(p => new List_1.ListItem(p.Id, p.Name)).ToList();
     }
 
     private static Dropdown.ViewModel DropdownModel = new(

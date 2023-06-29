@@ -36,9 +36,6 @@
         //}
 
         BottomLeftMenuButtonGroups = await GetBottomLeftMenuButtonGroups();
-
-        var claims = state.User.Claims.ToArray();
-        Console.WriteLine(claims);
     }
 
     private async Task OnMenuButtonClick(string id)
