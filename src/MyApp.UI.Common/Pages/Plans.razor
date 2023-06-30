@@ -5,7 +5,7 @@
 
 @*<FullBg ImageUrl=@($@"{Config.BaseAssetsPath}/images/general/main-bg.png") />*@
 
-@if (_plans.IsNullOrEmpty()) { return; }
+@if (_plans is null) { return; }
 
 <div class="grid-1x2f">
     <div class="v-list">

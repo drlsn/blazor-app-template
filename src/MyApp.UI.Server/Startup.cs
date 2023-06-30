@@ -1,5 +1,4 @@
-﻿using Corelibs.Basic.DDD;
-using Corelibs.Basic.Repository;
+﻿using Corelibs.Basic.Repository;
 using Corelibs.Basic.UseCases;
 using Corelibs.MongoDB;
 using FluentValidation;
@@ -7,6 +6,7 @@ using FluentValidation.AspNetCore;
 using Mediator;
 using MyApp.UI.Server.Data;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace MyApp.UI.Server;
 
@@ -17,8 +17,8 @@ public static class Startup
         var entitiesAssembly = typeof(Entities.Users.User).Assembly;
         var useCasesAssembly = typeof(UseCases.Users.CreateUserCommand).Assembly;
 
-        services.AddScoped<IAccessorAsync<CurrentUser>, CurrentUserAccessor>();
-
+        services.AddScoped<IAccessorAsync<ClaimsPrincipal>, ClaimsPrincipalAccessor>();
+        
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssembly(useCasesAssembly);
 
