@@ -5,6 +5,6 @@ namespace MyApp.UseCases.Plans;
 
 public record GetOwnPlansQuery : IQuery<Result<GetOwnPlansQueryResponse>>;
 
-public record GetOwnPlansQueryResponse(PlanVM[] Plans);
+public record GetOwnPlansQueryResponse(PlanDTO[] Plans);
 
-public record PlanVM(string Id, string Name);
+public record PlanDTO(string Id, string Name);

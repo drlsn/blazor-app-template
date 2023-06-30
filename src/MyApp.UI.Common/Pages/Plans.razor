@@ -30,7 +30,7 @@
     [Inject] public ICommandExecutor CommandExecutor { get; set; }
     [Inject] public NavigationManager Navigation { get; set; }
 
-    private PlanVM[] _plans;
+    private PlanDTO[] _plans;
     private List<List.ListItem> _listItems;
 
     protected override async Task OnInitializedAsync()

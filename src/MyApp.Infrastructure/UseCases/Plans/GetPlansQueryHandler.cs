@@ -29,7 +29,7 @@ public class GetOwnPlansQueryHandler : IQueryHandler<GetOwnPlansQuery, Result<Ge
     {
         var result = Result<GetOwnPlansQueryResponse>.Success();
 
-        var collection = _mongoConnection.Database.GetCollection<Plan>("plans");
+        var collection = _mongoConnection.Database.GetCollection<Plan>(Plan.DefaultCollectionName);
 
         var userId = await _userAccessor.GetUserID<UserId>();
         var filter = Builders<Plan>.Filter.Eq(x => x.OwnerId, userId);
@@ -41,7 +41,7 @@ public class GetOwnPlansQueryHandler : IQueryHandler<GetOwnPlansQuery, Result<Ge
         var docs = await collection.Find(filter).Project(projection).ToListAsync();
 
         var plans = docs.Select(doc => BsonSerializer.Deserialize<PlanProjection>(doc)).ToArray();
-        var vms = plans.Select(p => new PlanVM(p.Id.Value, p.Name)).ToArray();
+        var vms = plans.Select(p => new PlanDTO(p.Id.Value, p.Name)).ToArray();
 
         return result.With(
             new GetOwnPlansQueryResponse(vms));
