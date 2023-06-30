@@ -40,10 +40,12 @@ public class GetOwnPlansQueryHandler : IQueryHandler<GetOwnPlansQuery, Result<Ge
 
         var docs = await collection.Find(filter).Project(projection).ToListAsync();
 
-        var plans = docs.Select(doc => BsonSerializer.Deserialize<Plan>(doc)).ToArray();
+        var plans = docs.Select(doc => BsonSerializer.Deserialize<PlanProjection>(doc)).ToArray();
         var vms = plans.Select(p => new PlanVM(p.Id.Value, p.Name)).ToArray();
 
         return result.With(
             new GetOwnPlansQueryResponse(vms));
     }
+
+    public record PlanProjection(UserId Id, string Name);
 }
