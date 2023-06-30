@@ -1,12 +1,12 @@
 ﻿using Corelibs.Basic.DDD;
 using Corelibs.Basic.Repository;
+using Corelibs.Basic.UseCases;
 using Corelibs.MongoDB;
-using Mediator;
-using MyApp.UI.Common.Data;
-using MyApp.UI.Server.Data;
-using FluentValidation.AspNetCore;
-using System.Reflection;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+using Mediator;
+using MyApp.UI.Server.Data;
+using System.Reflection;
 
 namespace MyApp.UI.Server;
 
@@ -14,14 +14,15 @@ public static class Startup
 {
     public static void InitializeApp(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        var entitiesAssembly = typeof(MyApp.Entities.Users.User).Assembly;
-        var useCasesAssembly = typeof(MyApp.UseCases.Users.CreateUserCommand).Assembly;
+        var entitiesAssembly = typeof(Entities.Users.User).Assembly;
+        var useCasesAssembly = typeof(UseCases.Users.CreateUserCommand).Assembly;
 
         services.AddScoped<IAccessorAsync<CurrentUser>, CurrentUserAccessor>();
 
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssembly(useCasesAssembly);
 
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MongoDbCommandTransactionBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MongoDbQueryBehaviour<,>));
 

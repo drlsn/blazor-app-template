@@ -1,6 +1,5 @@
 ﻿@page "/plans"
-@using Corelibs.Basic.Collections;
-@using MyApp.UI.Common.Data;
+
 @using MyApp.UseCases.Plans;
 @using Corelibs.Basic.Reflection;
 
@@ -53,7 +52,7 @@
 
     private async Task<bool> OnAddItem(string name)
     {
-        //await CommandExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
+        await CommandExecutor.Execute(new CreatePlanCommand(name));
         await RefreshView();
         return false;
     }

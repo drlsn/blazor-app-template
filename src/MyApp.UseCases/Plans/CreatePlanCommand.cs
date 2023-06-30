@@ -2,13 +2,12 @@
 using Corelibs.Basic.DDD;
 using Corelibs.Basic.Repository;
 using FluentValidation;
-using FluentValidation.Results;
 using Mediator;
 using MyApp.Entities.Plans;
 
 namespace MyApp.UseCases.Plans;
 
-public class CreatePlanCommandHandler : ICommandHandler<CreateUserCommand, Result>
+public class CreatePlanCommandHandler : ICommandHandler<CreatePlanCommand, Result>
 {
     private readonly IRepository<Plan, PlanId> _planRepository;
 
@@ -22,7 +21,7 @@ public class CreatePlanCommandHandler : ICommandHandler<CreateUserCommand, Resul
         _currentUserAccessor = currentUserAccessor;
     }
 
-    public async ValueTask<Result> Handle(CreateUserCommand command, CancellationToken ct)
+    public async ValueTask<Result> Handle(CreatePlanCommand command, CancellationToken ct)
     {
         var result = Result.Success();
 
@@ -34,14 +33,14 @@ public class CreatePlanCommandHandler : ICommandHandler<CreateUserCommand, Resul
     }
 }
 
-public record CreateUserCommand() : ICommand<Result>;
+public record CreatePlanCommand(string Name) : ICommand<Result>;
 
-public class CreatePlanValidator : AbstractValidator<CreateUserCommand>
+public class CreatePlanValidator : AbstractValidator<CreatePlanCommand>
 {
-    public override ValidationResult Validate(ValidationContext<CreateUserCommand> context)
+    public CreatePlanValidator()
     {
-        RuleFor<>
-
-        return base.Validate(context);
+        RuleFor(person => person.Name)
+            .NotEmpty().WithMessage("Name is required")
+            .MaximumLength(50).WithMessage("First name must not exceed 50 characters.");
     }
 }
