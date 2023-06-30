@@ -10,7 +10,7 @@
 <div class="grid-1x2f">
     <div class="v-list">
         <div class="grid-1x2">
-            <List_1 
+            <List
                 Title="Your Plans"
                 ListItems=@_listItems
                 OnAddItemOnTop=@OnAddItem
@@ -31,7 +31,7 @@
     [Inject] public NavigationManager Navigation { get; set; }
 
     private PlanVM[] _plans;
-    private List<List_1.ListItem> _listItems;
+    private List<List.ListItem> _listItems;
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,7 +75,7 @@
         var response = await QueryExecutor.Execute<GetOwnPlansQuery, GetOwnPlansQueryResponse>();
         _plans = response?.Plans;
 
-        _listItems = _plans.Select(p => new List_1.ListItem(p.Id, p.Name)).ToList();
+        _listItems = _plans.Select(p => new List.ListItem(p.Id, p.Name)).ToList();
     }
 
     private static Dropdown.ViewModel DropdownModel = new(

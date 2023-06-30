@@ -26,7 +26,7 @@ builder.Services.Configure<OpenIdConnectOptions>(
         options.SaveTokens = true;
         options.ClientSecret = Environment.GetEnvironmentVariable("KinergizeServerClientSecret");
         options.Scope.Add("offline_access");
-        options.Scope.Add(options.ClientId);
+        options.Scope.Add(options?.ClientId);
         options.Events.OnRedirectToIdentityProvider = async context =>
         {
             if (builder.Environment.IsProduction())
