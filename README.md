@@ -250,5 +250,5 @@ server {
 
 # Setup Amazon SES for Email Marketing
 
-
-
+Pricing:
+- 3,000 outbound and inbound messages free per month, then $0.10/1000 emails + $0.12 for each GB of attachments you send + E2C outbound charges
