@@ -85,6 +85,14 @@ aws toolkit for Visual Studio
 - [Configuring AWS Credentials for .NET Applications](https://www.youtube.com/watch?v=oY0-1mj4oCo)
 
 ### Create AWS E2C instance
+
+Pricing - ex. for t3.micro
+- running instance 750h free per month
+- outbound data transfer - 100GB free per month (global), then first 10 TB / Month	$0.09 per GB and so on..
+
+#### Links
+[E2C Pricing](https://aws.amazon.com/ec2/pricing/on-demand/)
+
 ### Install Docker
 ### Add elastic IP
 
@@ -239,3 +247,8 @@ server {
 - https://nikhilpurwant.com/post/tech-lets-encrypt-on-ec2/
 - https://codewithmukesh.com/blog/securing-dotnet-webapi-with-amazon-cognito/
 - https://www.youtube.com/watch?v=cdZlakbZ8Cg
+
+# Setup Amazon SES for Email Marketing
+
+
+
